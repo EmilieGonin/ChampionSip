@@ -6,13 +6,28 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Menu_Main.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
   - enabled: 1
     path: Assets/Scenes/Party.unity
     guid: 334c471af5e05ea46b07a0fdd78d762f
   - enabled: 1
-    path: Assets/Scenes/TopMenu.unity
+    path: Assets/Scenes/Menu_Top.unity
     guid: 91133db8ee9614c448216e1da6335e30
+  - enabled: 1
+    path: Assets/Scenes/Popup_Rules.unity
+    guid: 1d804fe841fb9c34290e7692191bd0c1
+  - enabled: 1
+    path: Assets/Scenes/Popup_RulesPrefabs.unity
+    guid: f9aff6b52cdfbbb46b9a89cb64345af1
+  - enabled: 1
+    path: Assets/Scenes/Popup_Challenges.unity
+    guid: afb45f83cce39f243ba66ff766c7920c
+  - enabled: 1
+    path: Assets/Scenes/Popup_Shop.unity
+    guid: d0fedb0612280cb489832e121fc037ef
+  - enabled: 1
+    path: Assets/Scenes/Popup_Penalties.unity
+    guid: 2ccfd08e2434ec442b71ee5a4ff0b517
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: a140ef4db71859045a03de39e303c12d, type: 2}
