@@ -108,6 +108,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -62.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6363711266790472625, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363711266790472625, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363711266790472625, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363711266790472625, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 62.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363711266790472625, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -62.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7350444864484269814, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -139,6 +159,10 @@ PrefabInstance:
     - target: {fileID: 8759378897784384670, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
       propertyPath: m_Name
       value: Rule_ToChoose
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858917774963087595, guid: 6ac82cfbf4bde524eb5572f06028040c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

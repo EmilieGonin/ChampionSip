@@ -6,7 +6,7 @@ public class LoadRules : MonoBehaviour
     [SerializeField] private GameObject _rulePrefab;
     [SerializeField] private bool _rulesPrefabs;
 
-    private List<string> _rules;
+    private Dictionary<string, int> _rules;
 
     private void Awake()
     {
@@ -25,16 +25,22 @@ public class LoadRules : MonoBehaviour
     private void GameManager_OnRulesChange()
     {
         if (_rulesPrefabs) return;
+
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         _rules = GameManager.Instance.Rules;
         Load();
     }
 
     private void Load()
     {
-        foreach (string rule in _rules)
+        foreach (var rule in _rules)
         {
             Rule ruleObject = Instantiate(_rulePrefab, transform).GetComponent<Rule>();
-            ruleObject.Init(rule);
+            ruleObject.Init(rule.Key, rule.Value);
         }
     }
 }
