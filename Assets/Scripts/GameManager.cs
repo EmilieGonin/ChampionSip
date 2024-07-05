@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     // Rules
     public Dictionary<string, int> Rules { get; private set; } = new();
     public Dictionary<string, int> RulesPrefabs { get; private set; } = new();
+    public Dictionary<Category, Sprite> RulesCategories { get; private set; } = new();
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         RulesSO rulesSO = Resources.Load<RulesSO>("SO/Rules");
+        RulesCategories = rulesSO.RulesCategories;
 
         foreach (var rule in rulesSO.Rules)
         {

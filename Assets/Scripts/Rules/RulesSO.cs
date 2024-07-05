@@ -10,4 +10,5 @@ public enum Category
 public class RulesSO : ScriptableObject
 {
     public SerializedDictionary<string, Category> Rules;
+    public SerializedDictionary<Category, Sprite> RulesCategories;
 }
