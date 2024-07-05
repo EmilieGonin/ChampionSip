@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,6 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public static event Action OnRulesChange;
+
+    [Header("Modules")]
+    [SerializeField] private List<Module> _modules = new();
+
+    // Modules
+    private int _initializedModules = 0;
 
     //Economy
     public int Gold { get; private set; } = 0;
@@ -47,6 +54,8 @@ public class GameManager : MonoBehaviour
     {
         Economy.OnAddGold -= AddGold;
     }
+
+    public T Mod<T>() where T : Module => _modules.OfType<T>().First();
 
     #region Economy
     private void AddGold(int gold)
