@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     public static event Action OnRulesChange;
 
+    //Economy
+    public int Gold { get; private set; } = 0;
+
+    // Rules
     public Dictionary<string, int> Rules { get; private set; } = new();
     public Dictionary<string, int> RulesPrefabs { get; private set; } = new();
 
@@ -28,8 +32,28 @@ public class GameManager : MonoBehaviour
         {
             RulesPrefabs.Add(rule.Key, 0);
         }
+
+        Economy.OnAddGold += AddGold;
     }
 
+    private void OnDestroy()
+    {
+        Economy.OnAddGold -= AddGold;
+    }
+
+    #region Economy
+    private void AddGold(int gold)
+    {
+        Gold += gold;
+    }
+
+    private void RemoveGold(int gold)
+    {
+        Gold -= gold;
+    }
+    #endregion
+
+    #region Rules
     public void AddRule(string rule)
     {
         Rules.Add(rule, 0);
@@ -47,5 +71,11 @@ public class GameManager : MonoBehaviour
         RulesPrefabs.Add(rule, 0);
         Rules.Remove(rule);
         OnRulesChange?.Invoke();
+    }
+    #endregion
+
+    private void ShowError(string message)
+    {
+        //
     }
 }
