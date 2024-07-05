@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public Dictionary<string, int> RulesPrefabs { get; private set; } = new();
     public Dictionary<Category, Sprite> RulesCategories { get; private set; } = new();
 
+    // Challenges
+    public List<string> Challenges { get; private set; } = new();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -34,6 +37,8 @@ public class GameManager : MonoBehaviour
         {
             RulesPrefabs.Add(rule.Key, 0);
         }
+
+        Challenges = Resources.Load<ChallengesSO>("SO/Challenges").Challenges;
 
         Economy.OnAddGold += AddGold;
     }
