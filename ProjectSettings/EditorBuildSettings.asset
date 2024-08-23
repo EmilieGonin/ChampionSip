@@ -27,7 +27,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Popup_Shop.unity
     guid: d0fedb0612280cb489832e121fc037ef
   - enabled: 1
+    path: Assets/Scenes/Popup_LobbyCode.unity
+    guid: bd0c81a3500f5974c8a631b76093cc7b
+  - enabled: 1
     path: Assets/Scenes/Popup_Penalties.unity
     guid: 2ccfd08e2434ec442b71ee5a4ff0b517
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 939dc1ea2bbe0fb44a46cf974dceb46c
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 06ffa5f98fef0f14db8912471eece4de, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: a140ef4db71859045a03de39e303c12d, type: 2}

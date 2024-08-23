@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public static event Action OnLobbyCreated;
+
     public static event Action OnRulesChange;
 
     [Header("Modules")]
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     // Challenges
     public List<string> Challenges { get; private set; } = new();
+
+    public SceneHandler SceneHandler;
 
     private void Awake()
     {
@@ -56,6 +60,8 @@ public class GameManager : MonoBehaviour
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();
+
+    public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
 
     #region Economy
     private void AddGold(int gold)
