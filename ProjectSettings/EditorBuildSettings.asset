@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Popup_RulesPrefabs.unity
     guid: f9aff6b52cdfbbb46b9a89cb64345af1
   - enabled: 1
-    path: Assets/Scenes/Popup_Challenges.unity
+    path: Assets/Scenes/Popup_ChallengesRoulette.unity
     guid: afb45f83cce39f243ba66ff766c7920c
   - enabled: 1
     path: Assets/Scenes/Popup_Shop.unity
