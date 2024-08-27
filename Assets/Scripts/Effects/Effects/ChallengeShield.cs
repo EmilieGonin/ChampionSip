@@ -5,5 +5,10 @@ using UnityEngine;
 public class ChallengeShield : EffectSO
 {
     public static event Action OnActivate;
-    public override void Activate() => OnActivate?.Invoke();
+
+    public override void Activate()
+    {
+        base.Activate();
+        OnActivate?.Invoke();
+    }
 }

@@ -10,6 +10,7 @@ public class ShowGolds : MonoBehaviour
     private void Awake()
     {
         Economy.OnAddGold += Economy_OnAddGold;
+        EffectSO.OnBuy += EffectSO_OnBuy;
     }
 
     private void Start()
@@ -21,11 +22,18 @@ public class ShowGolds : MonoBehaviour
     private void OnDestroy()
     {
         Economy.OnAddGold -= Economy_OnAddGold;
+        EffectSO.OnBuy -= EffectSO_OnBuy;
     }
 
     private void Economy_OnAddGold(int amount)
     {
         _goldInt += amount;
+        _gold.text = _goldInt.ToString();
+    }
+
+    private void EffectSO_OnBuy(int amount)
+    {
+        _goldInt -= amount;
         _gold.text = _goldInt.ToString();
     }
 }

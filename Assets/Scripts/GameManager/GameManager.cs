@@ -55,11 +55,13 @@ public class GameManager : MonoBehaviour
         Effects.OrderBy(x => x.Name);
 
         Economy.OnAddGold += AddGold;
+        EffectSO.OnBuy += RemoveGold;
     }
 
     private void OnDestroy()
     {
         Economy.OnAddGold -= AddGold;
+        EffectSO.OnBuy -= RemoveGold;
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();
