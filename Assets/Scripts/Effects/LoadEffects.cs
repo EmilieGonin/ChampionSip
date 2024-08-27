@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadEffects : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class LoadEffects : MonoBehaviour
         {
             Effect effectObject = Instantiate(_effectPrefab, transform).GetComponent<Effect>();
             effectObject.Init(effect);
+
+            if (effect.Price > GameManager.Instance.Gold) effectObject.GetComponent<Button>().interactable = false;
         }
     }
 }

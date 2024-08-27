@@ -15,4 +15,5 @@ MonoBehaviour:
   Name: "Relance de d\xE9fi"
   Description: "Vous pouvez relancer le d\xE9fi de votre choix imm\xE9diatement."
   Icon: {fileID: 0}
-  Price: 0
+  Price: 30
+  Timer: 0

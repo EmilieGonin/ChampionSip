@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: "Vous \xEAtes immunis\xE9 \xE0 votre prochaine d\xE9faite lors d'un
     d\xE9fi."
   Icon: {fileID: 0}
-  Price: 0
+  Price: 20
   Timer: 0
