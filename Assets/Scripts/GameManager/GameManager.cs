@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
 
-    private void Counter_OnNewSip() => Sips++;
+    private void Counter_OnNewSip(int amount) => Sips += amount;
 
     #region Economy
     private void AddGold(int gold)
@@ -108,6 +108,6 @@ public class GameManager : MonoBehaviour
 
     public void ShowError(string message)
     {
-        //
+        Debug.LogError(message);
     }
 }

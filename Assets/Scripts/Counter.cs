@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public static event Action OnNewSip;
+    public static event Action<int> OnNewSip;
 
     [SerializeField] private TMP_Text _counterNumber;
     [SerializeField] private bool _isStat;
@@ -55,7 +55,7 @@ public class Counter : MonoBehaviour
     {
         _counter += amount;
         _counterNumber.text = _counter.ToString();
-        if (!_isStat) OnNewSip?.Invoke();
+        if (!_isStat) OnNewSip?.Invoke(amount);
     }
 
     public void RemoveCounter(int amount = 1)
