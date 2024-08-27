@@ -474,10 +474,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 77827506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 528, y: -100}
-  m_SizeDelta: {x: 500, y: 180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 500, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &33555333
 MonoBehaviour:
@@ -738,13 +738,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb75c8fc3c08f3d439a80a05f3098b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timer: {fileID: 0}
+  _timer: {fileID: 33555333}
   _icon: {fileID: 112442614}
   _shieldIcon: {fileID: -1402544341, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   _doubleSipIcon: {fileID: -358728841, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   _canvasGroup: {fileID: 77827511}
-  _doubleSipEffect: {fileID: 0}
-  _shieldEffect: {fileID: 0}
+  _doubleSipEffect: {fileID: 11400000, guid: a4676bd7a2ee07a4996c8fc6d78e31fd, type: 2}
 --- !u!225 &77827511
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -789,10 +788,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 77827506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 144, y: -100}
-  m_SizeDelta: {x: 268, y: 180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 268, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &112442614
 MonoBehaviour:

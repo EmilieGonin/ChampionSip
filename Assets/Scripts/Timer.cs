@@ -6,10 +6,12 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     [SerializeField] protected TMP_Text _timer;
+    protected TimeSpan _time;
+    protected IEnumerator _timerCoroutine;
 
     public IEnumerator Launch(int minutes)
     {
-        yield return SetTimer(minutes);
+        yield return _timerCoroutine = SetTimer(minutes);
         OnTimerEnd();
     }
 
@@ -17,14 +19,14 @@ public class Timer : MonoBehaviour
 
     private IEnumerator SetTimer(int minutes)
     {
-        TimeSpan time = new(0, minutes, 0);
+        _time = new(0, minutes, 0);
         TimeSpan tick = new(0, 0, 1);
 
-        while (time.TotalSeconds > 0)
+        while (_time.TotalSeconds > 0)
         {
             //Debug.Log(time.ToString());
-            time = time.Subtract(tick);
-            _timer.text = time.ToString();
+            _time = _time.Subtract(tick);
+            _timer.text = _time.ToString();
             yield return new WaitForSeconds(1);
         }
 
