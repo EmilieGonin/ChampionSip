@@ -1,8 +1,11 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
+    public static event Action OnNewSip;
+
     [SerializeField] private TMP_Text _counterNumber;
     [SerializeField] private bool _isStat;
 
@@ -12,18 +15,26 @@ public class Counter : MonoBehaviour
     private void Awake()
     {
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
-        ChallengeShield.OnActivate += ChallengeShield_OnActivate;
+        PlayerNetwork.OnSipTransfer += PlayerNetwork_OnSipTransfer;
+        EffectSO.OnActivate += EffectSO_OnActivate;
     }
 
     private void OnDestroy()
     {
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
-        ChallengeShield.OnActivate -= ChallengeShield_OnActivate;
+        PlayerNetwork.OnSipTransfer -= PlayerNetwork_OnSipTransfer;
+        EffectSO.OnActivate -= EffectSO_OnActivate;
     }
 
-    private void ChallengeShield_OnActivate()
+    private void PlayerNetwork_OnSipTransfer()
     {
-        _isProtected = true;
+        if (!_isStat) AddCounter(5);
+    }
+
+    private void EffectSO_OnActivate(EffectSO effect)
+    {
+        if (effect is ChallengeShield) _isProtected = true;
+        if (effect is SipTransfer && !_isStat) RemoveCounter(5);
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)
@@ -40,15 +51,16 @@ public class Counter : MonoBehaviour
         _counterNumber.text = _counter.ToString();
     }
 
-    public void AddCounter()
+    public void AddCounter(int amount = 1)
     {
-        _counter++;
+        _counter += amount;
         _counterNumber.text = _counter.ToString();
+        if (!_isStat) OnNewSip?.Invoke();
     }
 
-    public void RemoveCounter()
+    public void RemoveCounter(int amount = 1)
     {
-        _counter--;
+        _counter -= amount;
         if (_counter < 0) _counter = 0;
         _counterNumber.text = _counter.ToString();
     }

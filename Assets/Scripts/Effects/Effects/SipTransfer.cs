@@ -5,6 +5,12 @@ public class SipTransfer : EffectSO
 {
     public override void Activate()
     {
-        throw new System.NotImplementedException();
+        if (GameManager.Instance.Sips < 5)
+        {
+            GameManager.Instance.ShowError("Pas assez de gorgée à transférer");
+            return;
+        }
+
+        base.Activate();
     }
 }

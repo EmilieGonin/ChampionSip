@@ -7,13 +7,13 @@ public class HUDChallengeShieldEffect : MonoBehaviour
     private void Awake()
     {
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
-        ChallengeShield.OnActivate += Show;
+        EffectSO.OnActivate += Show;
     }
 
     private void OnDestroy()
     {
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
-        ChallengeShield.OnActivate -= Show;
+        EffectSO.OnActivate -= Show;
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)
@@ -21,6 +21,10 @@ public class HUDChallengeShieldEffect : MonoBehaviour
         if (!victory) Hide();
     }
 
-    private void Show() => _canvasGroup.alpha = 1;
+    private void Show(EffectSO effect)
+    {
+        if (effect is ChallengeShield) _canvasGroup.alpha = 1;
+    }
+
     private void Hide() => _canvasGroup.alpha = 0;
 }

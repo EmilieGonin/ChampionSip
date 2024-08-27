@@ -5,6 +5,6 @@ public class ChallengeRelaunch : EffectSO
 {
     public override void Activate()
     {
-        throw new System.NotImplementedException();
+        base.Activate();
     }
 }

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     //Effects
     public List<EffectSO> Effects { get; private set; } = new();
+    public int Sips { get; private set; } = 0;
 
     public SceneHandler SceneHandler;
 
@@ -56,17 +57,21 @@ public class GameManager : MonoBehaviour
 
         Economy.OnAddGold += AddGold;
         EffectSO.OnBuy += RemoveGold;
+        Counter.OnNewSip += Counter_OnNewSip;
     }
 
     private void OnDestroy()
     {
         Economy.OnAddGold -= AddGold;
         EffectSO.OnBuy -= RemoveGold;
+        Counter.OnNewSip -= Counter_OnNewSip;
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();
 
     public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
+
+    private void Counter_OnNewSip() => Sips++;
 
     #region Economy
     private void AddGold(int gold)
@@ -101,7 +106,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    private void ShowError(string message)
+    public void ShowError(string message)
     {
         //
     }
