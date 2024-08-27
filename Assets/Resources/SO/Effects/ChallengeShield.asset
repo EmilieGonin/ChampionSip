@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd596dee6745e6a40a7825b1e0e113a6, type: 3}
+  m_Name: ChallengeShield
+  m_EditorClassIdentifier: 
+  Name: "Bouclier anti-d\xE9fi"
+  Description: "Vous \xEAtes immunis\xE9 \xE0 votre prochaine d\xE9faite lors d'un
+    d\xE9fi."
+  Icon: {fileID: 0}
+  Price: 0
+  Timer: 0

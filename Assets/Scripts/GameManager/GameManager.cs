@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     // Challenges
     public List<string> Challenges { get; private set; } = new();
 
+    //Effects
+    public List<EffectSO> Effects { get; private set; } = new();
+
     public SceneHandler SceneHandler;
 
     private void Awake()
@@ -47,6 +50,9 @@ public class GameManager : MonoBehaviour
         }
 
         Challenges = Resources.Load<ChallengesSO>("SO/Challenges").Challenges;
+
+        Effects = Resources.LoadAll<EffectSO>("SO/Effects").ToList();
+        Effects.OrderBy(x => x.Name);
 
         Economy.OnAddGold += AddGold;
     }

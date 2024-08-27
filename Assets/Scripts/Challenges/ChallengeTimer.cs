@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChallengeTimer : MonoBehaviour
+public class ChallengeTimer : Timer
 {
-    [SerializeField] private TMP_Text _timer;
     [SerializeField] private Button _timerButton;
     [SerializeField] private Image _timerIcon;
 
@@ -20,27 +16,17 @@ public class ChallengeTimer : MonoBehaviour
         PlayerNetwork.OnChallengeCompleted -= StartTimer;
     }
 
-    public void StartTimer(bool victory) => StartCoroutine(Timer());
-
-    private IEnumerator Timer()
+    public void StartTimer(bool victory)
     {
         _timerButton.interactable = false;
         _timerIcon.color = _timerButton.colors.disabledColor;
+        StartCoroutine(Launch(5));
+    }
 
-        TimeSpan time = new(0, 5, 0);
-        TimeSpan tick = new(0, 0, 1);
-
-        while (time.TotalSeconds > 0)
-        {
-            //Debug.Log(time.ToString());
-            time = time.Subtract(tick);
-            _timer.text = time.ToString();
-            yield return new WaitForSeconds(1);
-        }
-
+    public override void OnTimerEnd()
+    {
         _timer.text = "Défi disponible";
         _timerButton.interactable = true;
         _timerIcon.color = Color.white;
-        yield return null;
     }
 }
