@@ -20,7 +20,7 @@ public class ChallengeTimer : MonoBehaviour
         PlayerNetwork.OnChallengeCompleted -= StartTimer;
     }
 
-    public void StartTimer() => StartCoroutine(Timer());
+    public void StartTimer(bool victory) => StartCoroutine(Timer());
 
     private IEnumerator Timer()
     {

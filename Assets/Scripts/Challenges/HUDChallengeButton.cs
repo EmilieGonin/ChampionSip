@@ -40,7 +40,7 @@ public class HUDChallengeButton : MonoBehaviour
         _timerText.text = "Victoire !";
     }
 
-    private void PlayerNetwork_OnChallengeCompleted()
+    private void PlayerNetwork_OnChallengeCompleted(bool victory)
     {
         _isAvailable = true;
         _buttonIcon.sprite = _buttonDefaultIcon;

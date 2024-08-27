@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action OnChallengeSelect;
-    public static event Action OnChallengeCompleted;
+    public static event Action<bool> OnChallengeCompleted; // true = victory
 
     public override void OnNetworkSpawn()
     {
@@ -35,26 +35,26 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (IsHost) CompleteChallengeClientRpc();
         else CompleteChallengeServerRpc();
-        OnChallengeCompleted?.Invoke();
+        OnChallengeCompleted?.Invoke(true);
     }
 
     [ServerRpc]
     private void SelectChallengeServerRpc() => OnChallengeSelect?.Invoke();
 
     [ServerRpc]
-    private void CompleteChallengeServerRpc() => OnChallengeSelect?.Invoke();
+    private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
 
     [ClientRpc]
     private void SelectChallengeClientRpc()
     {
         if (IsHost) return;
-        OnChallengeCompleted?.Invoke();
+        OnChallengeSelect?.Invoke();
     }
 
     [ClientRpc]
     private void CompleteChallengeClientRpc()
     {
         if (IsHost) return;
-        OnChallengeCompleted?.Invoke();
+        OnChallengeCompleted?.Invoke(false);
     }
 }

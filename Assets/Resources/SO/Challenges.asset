@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Challenges
   m_EditorClassIdentifier: 
   Challenges:
-  - Le prochain qui meurt
+  - Ne pas mourir
+  - Faire un kill
+  - Obtenir un objet rare
+  - Tenir le plus longtemps en planche
+  - Gagner une manche de Uno

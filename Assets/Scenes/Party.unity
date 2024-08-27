@@ -1678,6 +1678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 330298971}
+  _isStat: 1
 --- !u!1 &777497250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,6 +2382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 869871909}
+  _isStat: 0
 --- !u!1 &1030476086
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,6 +2885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 17006019}
+  _isStat: 0
 --- !u!1 &1106761154
 GameObject:
   m_ObjectHideFlags: 0
@@ -3270,8 +3273,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 30}
-  m_SizeDelta: {x: -100, y: -160}
+  m_AnchoredPosition: {x: 0, y: 37.5}
+  m_SizeDelta: {x: -600, y: -175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1185441993
 MonoBehaviour:
@@ -3293,7 +3296,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Aucun d\xE9fi en cours"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -3320,7 +3323,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3839,6 +3842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 374510141}
+  _isStat: 1
 --- !u!1 &1534426616
 GameObject:
   m_ObjectHideFlags: 0

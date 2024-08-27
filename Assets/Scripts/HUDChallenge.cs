@@ -27,7 +27,7 @@ public class HUDChallenge : MonoBehaviour
         _challenge.text = $"New challenge";
     }
 
-    private void PlayerNetwork_OnChallengeCompleted()
+    private void PlayerNetwork_OnChallengeCompleted(bool victory)
     {
         _canvasGroup.alpha = 0;
         _button.interactable = false;
