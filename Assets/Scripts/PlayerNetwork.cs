@@ -8,6 +8,7 @@ public class PlayerNetwork : NetworkBehaviour
     public static event Action<bool> OnChallengeCompleted; // true = victory
     public static event Action OnSipTransfer;
     public static event Action OnDoubleSip;
+    public static event Action OnBottomsUp;
 
     public override void OnNetworkSpawn()
     {
@@ -32,6 +33,11 @@ public class PlayerNetwork : NetworkBehaviour
         {
             if (IsHost) DoubleSipClientRpc();
             else DoubleSipServerRpc();
+        }
+        else if (effect is BottomsUp)
+        {
+            if (IsHost) BottomsUpClientRpc();
+            else BottomsUpServerRpc();
         }
     }
 
@@ -62,6 +68,7 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc] private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
     [ServerRpc] private void SipTransferServerRpc() => OnSipTransfer?.Invoke();
     [ServerRpc] private void DoubleSipServerRpc() => OnDoubleSip?.Invoke();
+    [ServerRpc] private void BottomsUpServerRpc() => OnBottomsUp?.Invoke();
 
     [ClientRpc]
     private void SelectChallengeClientRpc(string challenge)
@@ -89,5 +96,12 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (IsHost) return;
         OnDoubleSip?.Invoke();
+    }
+
+    [ClientRpc]
+    private void BottomsUpClientRpc()
+    {
+        if (IsHost) return;
+        OnBottomsUp?.Invoke();
     }
 }
