@@ -20,22 +20,36 @@ public class HUDChallengeButton : MonoBehaviour
     public static event Action OnChallengeSelect;
     public static event Action OnChallengeCompleted;
 
+    private void Awake()
+    {
+        PlayerNetwork.OnChallengeSelect += PlayerNetwork_OnChallengeSelect;
+        PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerNetwork.OnChallengeSelect -= PlayerNetwork_OnChallengeSelect;
+        PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
+    }
+
+    private void PlayerNetwork_OnChallengeSelect()
+    {
+        _isAvailable = false;
+        _buttonIcon.sprite = _buttonCompleteIcon;
+        _timerImage.color = _timerColor;
+        _timerText.text = "Victoire !";
+    }
+
+    private void PlayerNetwork_OnChallengeCompleted()
+    {
+        _isAvailable = true;
+        _buttonIcon.sprite = _buttonDefaultIcon;
+        _timerImage.color = Color.white;
+    }
+
     public void OnClick()
     {
-        if (_isAvailable)
-        {
-            _isAvailable = false;
-            _buttonIcon.sprite = _buttonCompleteIcon;
-            _timerImage.color = _timerColor;
-            _timerText.text = "Victoire !";
-            OnChallengeSelect?.Invoke();
-        }
-        else
-        {
-            _isAvailable = true;
-            _buttonIcon.sprite = _buttonDefaultIcon;
-            _timerImage.color = Color.white;
-            OnChallengeCompleted?.Invoke();
-        }
+        if (_isAvailable) OnChallengeSelect?.Invoke();
+        else OnChallengeCompleted?.Invoke();
     }
 }
