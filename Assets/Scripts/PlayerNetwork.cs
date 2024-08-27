@@ -5,54 +5,56 @@ using UnityEngine;
 public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action OnChallengeSelect;
-
-    private NetworkVariable<int> _challenge = new();
+    public static event Action OnChallengeCompleted;
 
     public override void OnNetworkSpawn()
     {
         //Debug.Log("Player created");
         DontDestroyOnLoad(gameObject);
 
-        SelectChallenge.OnChallengeSelect += SelectChallenge_OnChallengeSelect;
+        HUDChallengeButton.OnChallengeSelect += HUDChallengeButton_OnChallengeSelect;
+        HUDChallengeButton.OnChallengeCompleted += HUDChallengeButton_OnChallengeCompleted;
     }
 
     public override void OnNetworkDespawn()
     {
-        SelectChallenge.OnChallengeSelect -= SelectChallenge_OnChallengeSelect;
+        HUDChallengeButton.OnChallengeSelect -= HUDChallengeButton_OnChallengeSelect;
+        HUDChallengeButton.OnChallengeCompleted -= HUDChallengeButton_OnChallengeCompleted;
     }
 
-    private void SelectChallenge_OnChallengeSelect()
+    private void HUDChallengeButton_OnChallengeSelect()
     {
         if (!IsOwner) return;
-
-        if (IsHost)
-        {
-            SelectChallengeClientRpc();
-            return;
-        }
-
-        SelectChallengeServerRpc();
+        if (IsHost) SelectChallengeClientRpc();
+        else SelectChallengeServerRpc();
         OnChallengeSelect?.Invoke();
+    }
+
+    private void HUDChallengeButton_OnChallengeCompleted()
+    {
+        if (!IsOwner) return;
+        if (IsHost) CompleteChallengeClientRpc();
+        else CompleteChallengeServerRpc();
+        OnChallengeCompleted?.Invoke();
     }
 
     [ServerRpc]
-    private void SelectChallengeServerRpc()
-    {
-        Debug.Log("New challenge from client");
-        OnChallengeSelect?.Invoke();
-    }
+    private void SelectChallengeServerRpc() => OnChallengeSelect?.Invoke();
+
+    [ServerRpc]
+    private void CompleteChallengeServerRpc() => OnChallengeSelect?.Invoke();
 
     [ClientRpc]
     private void SelectChallengeClientRpc()
     {
         if (IsHost) return;
-        Debug.Log("New challenge from host");
-        OnChallengeSelect?.Invoke();
+        OnChallengeCompleted?.Invoke();
     }
 
-    //private void Update()
-    //{
-    //    Debug.Log($"{OwnerClientId} : {_challenge.Value}");
-    //    if (!IsOwner) return;
-    //}
+    [ClientRpc]
+    private void CompleteChallengeClientRpc()
+    {
+        if (IsHost) return;
+        OnChallengeCompleted?.Invoke();
+    }
 }

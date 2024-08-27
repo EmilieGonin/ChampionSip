@@ -12,12 +12,12 @@ public class ChallengeTimer : MonoBehaviour
 
     private void Awake()
     {
-        PlayerNetwork.OnChallengeSelect += StartTimer;
+        PlayerNetwork.OnChallengeCompleted += StartTimer;
     }
 
     private void OnDestroy()
     {
-        PlayerNetwork.OnChallengeSelect -= StartTimer;
+        PlayerNetwork.OnChallengeCompleted -= StartTimer;
     }
 
     public void StartTimer() => StartCoroutine(Timer());
