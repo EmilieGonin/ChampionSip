@@ -10,6 +10,16 @@ public class ChallengeTimer : MonoBehaviour
     [SerializeField] private Button _timerButton;
     [SerializeField] private Image _timerIcon;
 
+    private void Awake()
+    {
+        PlayerNetwork.OnChallengeSelect += StartTimer;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerNetwork.OnChallengeSelect -= StartTimer;
+    }
+
     public void StartTimer() => StartCoroutine(Timer());
 
     private IEnumerator Timer()

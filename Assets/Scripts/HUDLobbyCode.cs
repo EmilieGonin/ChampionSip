@@ -7,6 +7,6 @@ public class HUDLobbyCode : MonoBehaviour
 
     private void Awake()
     {
-        _code.text = $"Code du lobby : {GameManager.Instance.Mod<ModAccount>().GameLobby.LobbyCode}";
+        _code.text = $"Code du lobby : {GameManager.Instance.Mod<ModAccount>().LobbyCode}";
     }
 }

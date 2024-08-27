@@ -14,9 +14,6 @@ public class GameManager : MonoBehaviour
     [Header("Modules")]
     [SerializeField] private List<Module> _modules = new();
 
-    // Modules
-    private int _initializedModules = 0;
-
     //Economy
     public int Gold { get; private set; } = 0;
 

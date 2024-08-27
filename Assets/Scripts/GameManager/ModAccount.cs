@@ -7,10 +7,14 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 
 public class ModAccount : Module
 {
-    public Lobby GameLobby {  get; private set; }
+    public string LobbyCode {  get; private set; }
 
     async private void Awake()
     {
@@ -76,51 +80,105 @@ public class ModAccount : Module
         }
     }
 
-    async public void CreateLobby()
-    {
-        _manager.SceneHandler.Load();
-        string lobbyName = "new lobby";
-        int maxPlayers = 4;
-        CreateLobbyOptions options = new();
-        options.IsPrivate = true;
-        options.Player = new Player(
-            id: AuthenticationService.Instance.PlayerId,
-            data: new Dictionary<string, PlayerDataObject>()
-            {
-                {
-                    "ExampleMemberPlayerData", new PlayerDataObject(
-                        visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
-                        value: "ExampleMemberPlayerData")
-                }
-            });
-
-        GameLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
-        NetworkManager.Singleton.StartHost();
-        _manager.SceneHandler.Unload();
-        _manager.InvokeOnLobbyCreated();
-        //Debug.Log(GameLobby.LobbyCode);
-    }
-
-    //private void StartServer()
-    //{
-    //    NetworkManager.Singleton.StartServer();
-    //}
-
-    async public void JoinLobby(string code)
+    public async void CreateLobby()
     {
         _manager.SceneHandler.Load();
 
         try
         {
-            GameLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
-            NetworkManager.Singleton.StartClient();
-            _manager.InvokeOnLobbyCreated();
+            Allocation a = await RelayService.Instance.CreateAllocationAsync(3);
+            LobbyCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
+
+            Debug.Log(LobbyCode);
+
+            //NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
+            //    a.RelayServer.IpV4,
+            //    (ushort)a.RelayServer.Port,
+            //    a.AllocationIdBytes,
+            //    a.Key,
+            //    a.ConnectionData
+            //    );
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
+            NetworkManager.Singleton.StartHost();
         }
-        catch (LobbyServiceException e)
+        catch (RelayServiceException ex)
         {
-            Debug.Log(e);
+            Debug.LogException(ex);
         }
 
         _manager.SceneHandler.Unload();
+        _manager.InvokeOnLobbyCreated();
     }
+
+    public async void JoinLobby(string code)
+    {
+        _manager.SceneHandler.Load();
+
+        try
+        {
+            JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(code);
+
+            //NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
+            //    a.RelayServer.IpV4,
+            //    (ushort)a.RelayServer.Port,
+            //    a.AllocationIdBytes,
+            //    a.Key,
+            //    a.ConnectionData,
+            //    a.HostConnectionData
+            //    );
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
+            NetworkManager.Singleton.StartClient();
+        }
+        catch (RelayServiceException ex)
+        {
+            Debug.LogException(ex);
+        }
+
+        LobbyCode = code;
+        _manager.SceneHandler.Unload();
+        _manager.InvokeOnLobbyCreated();
+    }
+
+    //async public void CreateLobbyOld()
+    //{
+    //    _manager.SceneHandler.Load();
+    //    string lobbyName = "new lobby";
+    //    int maxPlayers = 4;
+    //    CreateLobbyOptions options = new();
+    //    options.IsPrivate = true;
+    //    options.Player = new Player(
+    //        id: AuthenticationService.Instance.PlayerId,
+    //        data: new Dictionary<string, PlayerDataObject>()
+    //        {
+    //            {
+    //                "ExampleMemberPlayerData", new PlayerDataObject(
+    //                    visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
+    //                    value: "ExampleMemberPlayerData")
+    //            }
+    //        });
+
+    //    GameLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+    //    _manager.SceneHandler.Unload();
+    //    _manager.InvokeOnLobbyCreated();
+    //    Debug.Log(GameLobby.LobbyCode);
+    //}
+
+    //async public void JoinLobbyOld(string code)
+    //{
+    //    _manager.SceneHandler.Load();
+
+    //    try
+    //    {
+    //        GameLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
+    //        _manager.InvokeOnLobbyCreated();
+    //    }
+    //    catch (LobbyServiceException e)
+    //    {
+    //        Debug.Log(e);
+    //    }
+
+    //    _manager.SceneHandler.Unload();
+    //}
 }
