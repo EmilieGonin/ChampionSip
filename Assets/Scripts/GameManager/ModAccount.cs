@@ -6,6 +6,7 @@ using Unity.Services.Core;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
 using UnityEngine;
+using Unity.Netcode;
 
 public class ModAccount : Module
 {
@@ -94,10 +95,16 @@ public class ModAccount : Module
             });
 
         GameLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+        NetworkManager.Singleton.StartHost();
         _manager.SceneHandler.Unload();
         _manager.InvokeOnLobbyCreated();
         //Debug.Log(GameLobby.LobbyCode);
     }
+
+    //private void StartServer()
+    //{
+    //    NetworkManager.Singleton.StartServer();
+    //}
 
     async public void JoinLobby(string code)
     {
@@ -106,6 +113,7 @@ public class ModAccount : Module
         try
         {
             GameLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
+            NetworkManager.Singleton.StartClient();
             _manager.InvokeOnLobbyCreated();
         }
         catch (LobbyServiceException e)
