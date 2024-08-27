@@ -20,11 +20,11 @@ public class HUDChallenge : MonoBehaviour
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
 
-    private void PlayerNetwork_OnChallengeSelect()
+    private void PlayerNetwork_OnChallengeSelect(string challenge)
     {
         _canvasGroup.alpha = 1;
         _button.interactable = true;
-        _challenge.text = $"New challenge";
+        _challenge.text = challenge;
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)

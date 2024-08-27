@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    public static event Action OnChallengeSelect;
+    public static event Action<string> OnChallengeSelect;
     public static event Action<bool> OnChallengeCompleted; // true = victory
 
     public override void OnNetworkSpawn()
@@ -22,12 +22,12 @@ public class PlayerNetwork : NetworkBehaviour
         HUDChallengeButton.OnChallengeCompleted -= HUDChallengeButton_OnChallengeCompleted;
     }
 
-    private void HUDChallengeButton_OnChallengeSelect()
+    private void HUDChallengeButton_OnChallengeSelect(string challenge)
     {
         if (!IsOwner) return;
-        if (IsHost) SelectChallengeClientRpc();
-        else SelectChallengeServerRpc();
-        OnChallengeSelect?.Invoke();
+        if (IsHost) SelectChallengeClientRpc(challenge);
+        else SelectChallengeServerRpc(challenge);
+        OnChallengeSelect?.Invoke(challenge);
     }
 
     private void HUDChallengeButton_OnChallengeCompleted()
@@ -39,16 +39,16 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void SelectChallengeServerRpc() => OnChallengeSelect?.Invoke();
+    private void SelectChallengeServerRpc(string challenge) => OnChallengeSelect?.Invoke(challenge);
 
     [ServerRpc]
     private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
 
     [ClientRpc]
-    private void SelectChallengeClientRpc()
+    private void SelectChallengeClientRpc(string challenge)
     {
         if (IsHost) return;
-        OnChallengeSelect?.Invoke();
+        OnChallengeSelect?.Invoke(challenge);
     }
 
     [ClientRpc]

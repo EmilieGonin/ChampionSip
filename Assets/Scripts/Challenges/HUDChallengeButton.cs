@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HUDChallengeButton : MonoBehaviour
 {
+    public static event Action<string> OnChallengeSelect;
+    public static event Action OnChallengeCompleted;
+
     [Header("Button Appearence")]
     [SerializeField] private Image _buttonIcon;
     [SerializeField] private Sprite _buttonDefaultIcon;
@@ -16,9 +20,6 @@ public class HUDChallengeButton : MonoBehaviour
     [SerializeField] private TMP_Text _timerText;
 
     private bool _isAvailable = true;
-
-    public static event Action OnChallengeSelect;
-    public static event Action OnChallengeCompleted;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class HUDChallengeButton : MonoBehaviour
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
 
-    private void PlayerNetwork_OnChallengeSelect()
+    private void PlayerNetwork_OnChallengeSelect(string challenge)
     {
         _isAvailable = false;
         _buttonIcon.sprite = _buttonCompleteIcon;
@@ -49,7 +50,11 @@ public class HUDChallengeButton : MonoBehaviour
 
     public void OnClick()
     {
-        if (_isAvailable) OnChallengeSelect?.Invoke();
+        if (_isAvailable)
+        {
+            int rand = UnityEngine.Random.Range(0, GameManager.Instance.Challenges.Count);
+            OnChallengeSelect?.Invoke(GameManager.Instance.Challenges[rand]);
+        }
         else OnChallengeCompleted?.Invoke();
     }
 }
