@@ -7,7 +7,7 @@ public class SipTransfer : EffectSO
     {
         if (GameManager.Instance.Sips < 5)
         {
-            GameManager.Instance.ShowError("Pas assez de gorgées à transférer");
+            GameManager.Instance.ShowError("Pas assez de gorgées à transférer.");
             return;
         }
 
