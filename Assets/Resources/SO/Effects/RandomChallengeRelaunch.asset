@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "Relance de d\xE9fi al\xE9atoire"
   Description: "Vous pouvez relancer un d\xE9fi al\xE9atoire imm\xE9diatement."
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300010, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   Price: 20
   Timer: 0

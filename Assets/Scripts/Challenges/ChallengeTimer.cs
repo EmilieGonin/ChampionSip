@@ -9,11 +9,20 @@ public class ChallengeTimer : Timer
     private void Awake()
     {
         PlayerNetwork.OnChallengeCompleted += StartTimer;
+        PlayerNetwork.OnChallengeSelect += PlayerNetwork_OnChallengeSelect;
     }
 
     private void OnDestroy()
     {
         PlayerNetwork.OnChallengeCompleted -= StartTimer;
+        PlayerNetwork.OnChallengeSelect -= PlayerNetwork_OnChallengeSelect;
+    }
+
+    private void PlayerNetwork_OnChallengeSelect(string obj)
+    {
+        if (_timerCoroutine != null) StopCoroutine(_timerCoroutine);
+        _timerButton.interactable = true;
+        _timerIcon.color = Color.white;
     }
 
     public void StartTimer(bool victory)

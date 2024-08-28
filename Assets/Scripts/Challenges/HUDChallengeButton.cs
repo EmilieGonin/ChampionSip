@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.VisionOS;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,12 +26,14 @@ public class HUDChallengeButton : MonoBehaviour
     {
         PlayerNetwork.OnChallengeSelect += PlayerNetwork_OnChallengeSelect;
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
+        EffectSO.OnActivate += EffectSO_OnActivate;
     }
 
     private void OnDestroy()
     {
         PlayerNetwork.OnChallengeSelect -= PlayerNetwork_OnChallengeSelect;
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
+        EffectSO.OnActivate -= EffectSO_OnActivate;
     }
 
     private void PlayerNetwork_OnChallengeSelect(string challenge)
@@ -48,13 +51,20 @@ public class HUDChallengeButton : MonoBehaviour
         _timerImage.color = Color.white;
     }
 
+    private void EffectSO_OnActivate(EffectSO effect)
+    {
+        if (effect is RandomChallengeRelaunch) CreateNewChallenge();
+    }
+
     public void OnClick()
     {
-        if (_isAvailable)
-        {
-            int rand = UnityEngine.Random.Range(0, GameManager.Instance.Challenges.Count);
-            OnChallengeSelect?.Invoke(GameManager.Instance.Challenges[rand]);
-        }
+        if (_isAvailable) CreateNewChallenge();
         else OnChallengeCompleted?.Invoke();
+    }
+
+    private void CreateNewChallenge()
+    {
+        int rand = UnityEngine.Random.Range(0, GameManager.Instance.Challenges.Count);
+        OnChallengeSelect?.Invoke(GameManager.Instance.Challenges[rand]);
     }
 }
