@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
-using Unity.Services.Lobbies.Models;
-using Unity.Services.Lobbies;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport.Relay;
 
 public class ModAccount : Module
 {
@@ -83,7 +79,6 @@ public class ModAccount : Module
     public async void CreateLobby()
     {
         _manager.SceneHandler.Load();
-
         try
         {
             Allocation a = await RelayService.Instance.CreateAllocationAsync(3);
@@ -91,16 +86,10 @@ public class ModAccount : Module
 
             Debug.Log(LobbyCode);
 
-            //NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
-            //    a.RelayServer.IpV4,
-            //    (ushort)a.RelayServer.Port,
-            //    a.AllocationIdBytes,
-            //    a.Key,
-            //    a.ConnectionData
-            //    );
-
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
             NetworkManager.Singleton.StartHost();
+
+            _manager.InvokeOnLobbyCreated();
         }
         catch (RelayServiceException ex)
         {
@@ -108,7 +97,6 @@ public class ModAccount : Module
         }
 
         _manager.SceneHandler.Unload();
-        _manager.InvokeOnLobbyCreated();
     }
 
     public async void JoinLobby(string code)
@@ -118,27 +106,19 @@ public class ModAccount : Module
         try
         {
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(code);
-
-            //NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
-            //    a.RelayServer.IpV4,
-            //    (ushort)a.RelayServer.Port,
-            //    a.AllocationIdBytes,
-            //    a.Key,
-            //    a.ConnectionData,
-            //    a.HostConnectionData
-            //    );
-
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
             NetworkManager.Singleton.StartClient();
+
+            LobbyCode = code;
+            _manager.InvokeOnLobbyCreated();
         }
         catch (RelayServiceException ex)
         {
             Debug.LogException(ex);
+            _manager.ShowError("Impossible de se connecter au lobby.");
         }
 
-        LobbyCode = code;
         _manager.SceneHandler.Unload();
-        _manager.InvokeOnLobbyCreated();
     }
 
     //async public void CreateLobbyOld()
