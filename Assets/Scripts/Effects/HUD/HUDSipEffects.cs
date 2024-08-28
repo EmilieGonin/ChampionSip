@@ -7,41 +7,51 @@ public class HUDSipEffects : Timer
     [SerializeField] private Sprite _shieldIcon;
     [SerializeField] private Sprite _doubleSipIcon;
     [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private EffectSO _doubleSipEffect;
+
+    private EffectSO _currentEffect;
 
     private void Awake()
     {
         EffectSO.OnActivate += EffectSO_OnActivate;
-        PlayerNetwork.OnDoubleSip += PlayerNetwork_OnDoubleSip;
+        EffectSO.OnInflict += EffectSO_OnInflict;
     }
 
     private void OnDestroy()
     {
         EffectSO.OnActivate -= EffectSO_OnActivate;
-        PlayerNetwork.OnDoubleSip -= PlayerNetwork_OnDoubleSip;
+        EffectSO.OnInflict -= EffectSO_OnInflict;
     }
 
     private void EffectSO_OnActivate(EffectSO effect)
     {
         if (effect is Shield)
         {
-            if (_time.TotalSeconds > 0) StopCoroutine(_timerCoroutine);
+            ChangeEffect(effect);
             _icon.sprite = _shieldIcon;
-            _canvasGroup.alpha = 1;
-            StartCoroutine(Launch(effect.Timer));
         }
     }
 
-    private void PlayerNetwork_OnDoubleSip()
+    private void EffectSO_OnInflict(EffectSO effect)
+    {
+        if (effect is DoubleSip)
+        {
+            ChangeEffect(effect);
+            _icon.sprite = _doubleSipIcon;
+        }
+    }
+
+    private void ChangeEffect(EffectSO effect)
     {
         if (_time.TotalSeconds > 0) StopCoroutine(_timerCoroutine);
-        _icon.sprite = _doubleSipIcon;
+        _currentEffect?.Deactivate();
+        _currentEffect = effect;
         _canvasGroup.alpha = 1;
-        StartCoroutine(Launch(_doubleSipEffect.Timer));
+        StartCoroutine(Launch(effect.Timer));
     }
 
     public override void OnTimerEnd()
     {
         _canvasGroup.alpha = 0;
+        _currentEffect?.Deactivate();
     }
 }

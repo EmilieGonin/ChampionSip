@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     //Effects
     public List<EffectSO> Effects { get; private set; } = new();
+    public List<EffectSO> CurrentEffects { get; private set; } = new();
     public int Sips { get; private set; } = 0;
 
     public SceneHandler SceneHandler;
@@ -56,14 +57,14 @@ public class GameManager : MonoBehaviour
         Effects.OrderBy(x => x.Name);
 
         Economy.OnAddGold += AddGold;
-        EffectSO.OnBuy += RemoveGold;
+        EffectSO.OnActivate += EffectSO_OnActivate;
+        EffectSO.OnDeactivate += EffectSO_OnDeactivate;
         Counter.OnNewSip += Counter_OnNewSip;
     }
 
     private void OnDestroy()
     {
         Economy.OnAddGold -= AddGold;
-        EffectSO.OnBuy -= RemoveGold;
         Counter.OnNewSip -= Counter_OnNewSip;
     }
 
@@ -106,8 +107,23 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void EffectSO_OnActivate(EffectSO effect)
+    {
+        CurrentEffects.Add(effect);
+        RemoveGold(effect.Price);
+    }
+
+    private void EffectSO_OnDeactivate(EffectSO effect) => CurrentEffects.Remove(effect);
+
+    public EffectSO GetEffectByName(string name) => Effects.Find(x => x.Name == name);
+
     public void ShowError(string message)
     {
         Debug.LogError(message);
+    }
+
+    public void ShowNotification(string message)
+    {
+        Debug.Log(message);
     }
 }

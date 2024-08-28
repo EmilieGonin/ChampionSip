@@ -6,15 +6,12 @@ public class HUDBottomsUpEffect : MonoBehaviour
 {
     [SerializeField, Scene] private string _bottomsUpPopup;
 
-    private void Awake()
-    {
-        PlayerNetwork.OnBottomsUp += PlayerNetwork_OnBottomsUp;
-    }
+    private void Awake() => EffectSO.OnInflict += EffectSO_OnInflict;
+    private void OnDestroy() => EffectSO.OnInflict -= EffectSO_OnInflict;
 
-    private void OnDestroy()
+    private void EffectSO_OnInflict(EffectSO effect)
     {
-        PlayerNetwork.OnBottomsUp -= PlayerNetwork_OnBottomsUp;
+        if (effect is not BottomsUp) return;
+        SceneManager.LoadScene(_bottomsUpPopup, LoadSceneMode.Additive);
     }
-
-    private void PlayerNetwork_OnBottomsUp() => SceneManager.LoadScene(_bottomsUpPopup, LoadSceneMode.Additive);
 }
