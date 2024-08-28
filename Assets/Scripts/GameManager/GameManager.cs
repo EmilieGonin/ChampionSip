@@ -60,12 +60,16 @@ public class GameManager : MonoBehaviour
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnDeactivate += EffectSO_OnDeactivate;
         Counter.OnNewSip += Counter_OnNewSip;
+        PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
     }
 
     private void OnDestroy()
     {
         Economy.OnAddGold -= AddGold;
+        EffectSO.OnActivate -= EffectSO_OnActivate;
+        EffectSO.OnDeactivate -= EffectSO_OnDeactivate;
         Counter.OnNewSip -= Counter_OnNewSip;
+        PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();
@@ -75,6 +79,11 @@ public class GameManager : MonoBehaviour
     private void Counter_OnNewSip(int amount) => Sips += amount;
 
     #region Economy
+    private void PlayerNetwork_OnChallengeCompleted(bool victory)
+    {
+        if (victory) AddGold(10);
+    }
+
     private void AddGold(int gold)
     {
         Gold += gold;
