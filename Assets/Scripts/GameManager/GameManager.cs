@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour
 
     public static event Action OnRulesChange;
 
-    [Header("Modules")]
     [SerializeField] private List<Module> _modules = new();
+
+    [Header("Scenes")]
+    public SceneHandler LoadingScreenSceneHandler;
+    public SceneHandler ErrorSceneHandler;
 
     //Economy
     public int Gold { get; private set; } = 0;
@@ -30,7 +33,7 @@ public class GameManager : MonoBehaviour
     public List<EffectSO> CurrentEffects { get; private set; } = new();
     public int Sips { get; private set; } = 0;
 
-    public SceneHandler SceneHandler;
+    public string ErrorMessage { get; private set; }
 
     private void Awake()
     {
@@ -127,7 +130,9 @@ public class GameManager : MonoBehaviour
 
     public void ShowError(string message)
     {
+        ErrorMessage = message;
         Debug.LogError(message);
+        ErrorSceneHandler.Load();
     }
 
     public void ShowNotification(string message)

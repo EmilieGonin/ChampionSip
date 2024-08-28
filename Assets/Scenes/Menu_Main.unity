@@ -548,6 +548,8 @@ MonoBehaviour:
   _instantLoad: 0
   _unloadCurrentScene: 1
   _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 0
 --- !u!1 &711238299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,6 +1264,8 @@ MonoBehaviour:
   _instantLoad: 0
   _unloadCurrentScene: 1
   _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 0
 --- !u!1001 &2369996080595384830
 PrefabInstance:
   m_ObjectHideFlags: 0

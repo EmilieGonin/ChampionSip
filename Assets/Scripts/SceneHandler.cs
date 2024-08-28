@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +14,9 @@ public class SceneHandler : MonoBehaviour
     [BoxGroup("Unload Settings"), SerializeField] private bool _unloadCurrentScene = true;
     [BoxGroup("Unload Settings"), HideIf("_unloadCurrentScene"), SerializeField, Scene]
     private string _sceneToUnload;
+    [BoxGroup("Unload Settings"), SerializeField] private bool _popupTimeout = false;
+    [BoxGroup("Unload Settings"), ShowIf("_popupTimeout"), SerializeField]
+    private int _timeoutDuration = 3;
 
     private LoadSceneMode _loadSceneMode;
 
@@ -26,11 +30,19 @@ public class SceneHandler : MonoBehaviour
     public void Load()
     {
         SceneManager.LoadScene(_sceneToLoad, _loadSceneMode);
+        if (_popupTimeout) StartCoroutine(Timeout());
     }
 
     public void Unload()
     {
         string scene = _unloadCurrentScene ? gameObject.scene.name : _sceneToUnload;
         SceneManager.UnloadSceneAsync(scene);
+    }
+
+    private IEnumerator Timeout()
+    {
+        yield return new WaitForSeconds(_timeoutDuration);
+        Unload();
+        yield return null;
     }
 }

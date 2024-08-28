@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Popup_BottomsUp.unity
     guid: 9c49dcaccebe2ad43b6c0798376bfe34
   - enabled: 1
+    path: Assets/Scenes/Popup_Errors.unity
+    guid: 06e29d171dc91f34e8c3749c853bee21
+  - enabled: 1
     path: Assets/Scenes/Popup_Shop.unity
     guid: d0fedb0612280cb489832e121fc037ef
   - enabled: 1

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5284516792967378332}
   - component: {fileID: 3238628579868889249}
   - component: {fileID: 3760311243804793067}
+  - component: {fileID: 969898385892244232}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -48,7 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _modules:
   - {fileID: 3238628579868889249}
-  SceneHandler: {fileID: 3760311243804793067}
+  LoadingScreenSceneHandler: {fileID: 3760311243804793067}
+  ErrorSceneHandler: {fileID: 969898385892244232}
 --- !u!114 &3238628579868889249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,3 +80,24 @@ MonoBehaviour:
   _instantLoad: 0
   _unloadCurrentScene: 0
   _sceneToUnload: LoadingScreen
+  _popupTimeout: 0
+  _timeoutDuration: 0
+--- !u!114 &969898385892244232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312198945610911189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c41c0127e69a714eabdfb61f163d392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToLoad: Popup_Errors
+  _loadAsAdditive: 1
+  _instantLoad: 0
+  _unloadCurrentScene: 0
+  _sceneToUnload: Popup_Errors
+  _popupTimeout: 1
+  _timeoutDuration: 3

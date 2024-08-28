@@ -78,7 +78,7 @@ public class ModAccount : Module
 
     public async void CreateLobby()
     {
-        _manager.SceneHandler.Load();
+        _manager.LoadingScreenSceneHandler.Load();
         try
         {
             Allocation a = await RelayService.Instance.CreateAllocationAsync(3);
@@ -96,12 +96,12 @@ public class ModAccount : Module
             Debug.LogException(ex);
         }
 
-        _manager.SceneHandler.Unload();
+        _manager.LoadingScreenSceneHandler.Unload();
     }
 
     public async void JoinLobby(string code)
     {
-        _manager.SceneHandler.Load();
+        _manager.LoadingScreenSceneHandler.Load();
 
         try
         {
@@ -118,7 +118,7 @@ public class ModAccount : Module
             _manager.ShowError("Impossible de se connecter au lobby.");
         }
 
-        _manager.SceneHandler.Unload();
+        _manager.LoadingScreenSceneHandler.Unload();
     }
 
     //async public void CreateLobbyOld()
