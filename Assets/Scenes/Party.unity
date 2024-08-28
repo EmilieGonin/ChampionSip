@@ -740,10 +740,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timer: {fileID: 33555333}
   _icon: {fileID: 112442614}
-  _shieldIcon: {fileID: -1402544341, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
+  _shieldIcon: {fileID: 240973750, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   _doubleSipIcon: {fileID: -358728841, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   _canvasGroup: {fileID: 77827511}
-  _doubleSipEffect: {fileID: 11400000, guid: a4676bd7a2ee07a4996c8fc6d78e31fd, type: 2}
 --- !u!225 &77827511
 CanvasGroup:
   m_ObjectHideFlags: 0

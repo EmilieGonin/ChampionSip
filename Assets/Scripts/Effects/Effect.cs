@@ -17,11 +17,8 @@ public class Effect : MonoBehaviour
         _effectName.text = effect.Name;
         _effectDescription.text = effect.Description;
         _effectPrice.text = effect.Price.ToString();
+        _effectIcon.sprite = effect.Icon;
     }
 
-    public void Activate()
-    {
-        //deduct price
-        _effect.Activate();
-    }
+    public void Activate() => _effect.Activate();
 }

@@ -15,6 +15,6 @@ MonoBehaviour:
   Name: "Bouclier anti-d\xE9fi"
   Description: "Vous \xEAtes immunis\xE9 \xE0 votre prochaine d\xE9faite lors d'un
     d\xE9fi."
-  Icon: {fileID: 0}
-  Price: 20
+  Icon: {fileID: -1402544341, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
+  Price: 30
   Timer: 0

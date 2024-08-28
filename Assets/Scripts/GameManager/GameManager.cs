@@ -53,8 +53,7 @@ public class GameManager : MonoBehaviour
 
         Challenges = Resources.Load<ChallengesSO>("SO/Challenges").Challenges;
 
-        Effects = Resources.LoadAll<EffectSO>("SO/Effects").ToList();
-        Effects.OrderBy(x => x.Name);
+        Effects = Resources.LoadAll<EffectSO>("SO/Effects").OrderBy(x => x.Price).ToList();
 
         Economy.OnAddGold += AddGold;
         EffectSO.OnActivate += EffectSO_OnActivate;

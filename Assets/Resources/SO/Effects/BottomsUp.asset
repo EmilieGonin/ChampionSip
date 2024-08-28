@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Cul sec
   Description: L'autre joueur doit boire son verre cul sec.
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 13d8091d780e5ca4cbea1eb1d5356019, type: 3}
   Price: 50
+  Timer: 0

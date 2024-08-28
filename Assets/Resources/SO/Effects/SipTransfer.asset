@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "Transfert de gorg\xE9es"
   Description: "Vous transf\xE9rez 5 de vos gorg\xE9es \xE0 boire \xE0 l'autre joueur."
-  Icon: {fileID: 0}
+  Icon: {fileID: 23211426, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   Price: 10
   Timer: 0

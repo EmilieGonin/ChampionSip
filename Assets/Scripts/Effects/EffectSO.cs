@@ -10,7 +10,7 @@ public abstract class EffectSO : ScriptableObject
 
     public string Name;
     public string Description;
-    public Image Icon;
+    public Sprite Icon;
     public int Price;
     public int Timer;
 
