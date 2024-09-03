@@ -7,10 +7,15 @@ using Unity.Netcode;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport;
 
 public class ModAccount : Module
 {
+    public string PlayerName
+    {
+        get { return PlayerPrefs.GetString(name); }
+        set { PlayerPrefs.SetString(name, value); }
+    }
+
     public string LobbyCode {  get; private set; }
 
     async private void Awake()
@@ -19,6 +24,7 @@ public class ModAccount : Module
         {
             await UnityServices.InitializeAsync();
             await SignInAnonymouslyAsync();
+            //if (string.IsNullOrEmpty(PlayerName)) PlayerName = "Test";
         }
         catch (Exception e)
         {
