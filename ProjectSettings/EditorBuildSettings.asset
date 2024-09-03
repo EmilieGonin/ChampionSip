@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Popup_Errors.unity
     guid: 06e29d171dc91f34e8c3749c853bee21
   - enabled: 1
+    path: Assets/Scenes/Popup_Notifications.unity
+    guid: 3b29195643f5bcd46b076b9a0a56eeea
+  - enabled: 1
     path: Assets/Scenes/Popup_Shop.unity
     guid: d0fedb0612280cb489832e121fc037ef
   - enabled: 1

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [Header("Scenes")]
     public SceneHandler LoadingScreenSceneHandler;
     public SceneHandler ErrorSceneHandler;
+    public SceneHandler NotificationSceneHandler;
 
     //Economy
     public int Gold { get; private set; } = 0;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     public int Sips { get; private set; } = 0;
 
     public string ErrorMessage { get; private set; }
+    public string NotificationMessage { get; private set; }
 
     private void Awake()
     {
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
         Economy.OnAddGold -= AddGold;
         EffectSO.OnActivate -= EffectSO_OnActivate;
         EffectSO.OnDeactivate -= EffectSO_OnDeactivate;
+        EffectSO.OnInflict += EffectSO_OnInflict;
         Counter.OnNewSip -= Counter_OnNewSip;
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
@@ -121,15 +124,17 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public EffectSO GetEffectByName(string name) => Effects.Find(x => x.Name == name);
+
     private void EffectSO_OnActivate(EffectSO effect)
     {
         CurrentEffects.Add(effect);
         RemoveGold(effect.Price);
+        ShowNotification($"Vous avez activé l'effet <b>{effect.Name}</b> !");
     }
 
     private void EffectSO_OnDeactivate(EffectSO effect) => CurrentEffects.Remove(effect);
-
-    public EffectSO GetEffectByName(string name) => Effects.Find(x => x.Name == name);
+    private void EffectSO_OnInflict(EffectSO effect) => ShowNotification($"On vous a infligé l'effet <b>{effect.Name}</b> !");
 
     public void ShowError(string message)
     {
@@ -140,6 +145,8 @@ public class GameManager : MonoBehaviour
 
     public void ShowNotification(string message)
     {
+        NotificationMessage = message;
         Debug.Log(message);
+        NotificationSceneHandler.Load();
     }
 }
