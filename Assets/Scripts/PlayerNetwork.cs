@@ -9,12 +9,32 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        //Debug.Log("Player created");
+        base.OnNetworkSpawn();
         DontDestroyOnLoad(gameObject);
 
         HUDChallengeButton.OnChallengeSelect += HUDChallengeButton_OnChallengeSelect;
         HUDChallengeButton.OnChallengeCompleted += HUDChallengeButton_OnChallengeCompleted;
         EffectSO.OnActivate += EffectSO_OnActivate;
+
+        NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
+    }
+
+    private void Singleton_OnClientDisconnectCallback(ulong id)
+    {
+        if (!IsOwner || OwnerClientId == id) return;
+        GameManager.Instance.ShowError("Un joueur s'est déconnecté !");
+    }
+
+    private void Singleton_OnClientConnectedCallback(ulong id)
+    {
+        if (!IsOwner) return;
+
+        if (OwnerClientId == id)
+        {
+            //Reconnect
+        }
+        else GameManager.Instance.ShowNotification("Un joueur s'est connecté !");
     }
 
     private void EffectSO_OnActivate(EffectSO effect)
@@ -30,9 +50,13 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
+        base.OnNetworkDespawn();
         HUDChallengeButton.OnChallengeSelect -= HUDChallengeButton_OnChallengeSelect;
         HUDChallengeButton.OnChallengeCompleted -= HUDChallengeButton_OnChallengeCompleted;
         EffectSO.OnActivate -= EffectSO_OnActivate;
+
+        NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
     }
 
     private void HUDChallengeButton_OnChallengeSelect(string challenge)
@@ -78,7 +102,13 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus) GameManager.Instance.Mod<ModAccount>().Reconnect(IsHost);
+        if (!IsOwner) return;
+
+        if (!pauseStatus)
+        {
+            GameManager.Instance.ShowError("Reconnecting");
+            GameManager.Instance.Mod<ModAccount>().Reconnect(IsHost);
+        }
     }
 
     private void Update()

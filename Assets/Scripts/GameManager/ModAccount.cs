@@ -110,7 +110,7 @@ public class ModAccount : Module
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
             NetworkManager.Singleton.StartClient();
 
-            LobbyCode = code;
+            LobbyCode = code.ToUpper();
             _manager.InvokeOnLobbyCreated();
         }
         catch (RelayServiceException ex)
