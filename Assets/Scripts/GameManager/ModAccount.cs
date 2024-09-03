@@ -7,6 +7,7 @@ using Unity.Netcode;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport;
 
 public class ModAccount : Module
 {
@@ -116,6 +117,28 @@ public class ModAccount : Module
         {
             Debug.LogException(ex);
             _manager.ShowError("Impossible de se connecter au lobby.");
+        }
+
+        _manager.LoadingScreenSceneHandler.Unload();
+    }
+
+    public async void Reconnect(bool isHost)
+    {
+        _manager.LoadingScreenSceneHandler.Load();
+        Debug.Log("Reconnecting to host");
+
+        try
+        {
+            JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(LobbyCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(allocation, "dtls"));
+            if (isHost) NetworkManager.Singleton.StartHost();
+            else NetworkManager.Singleton.StartClient();
+            Debug.Log("Successfully reconnected to the Relay server.");
+        }
+        catch (RelayServiceException ex)
+        {
+            Debug.LogException(ex);
+            _manager.ShowError("Failed to reconnect to the lobby.");
         }
 
         _manager.LoadingScreenSceneHandler.Unload();

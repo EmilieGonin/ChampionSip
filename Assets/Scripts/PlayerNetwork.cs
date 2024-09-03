@@ -75,4 +75,26 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsHost) return;
         GameManager.Instance.GetEffectByName(effect).Inflict();
     }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus) GameManager.Instance.Mod<ModAccount>().Reconnect(IsHost);
+    }
+
+    private void Update()
+    {
+        // Appuyer sur la touche "P" pour simuler la mise en veille
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("Simulating app going into background...");
+            OnApplicationPause(true);
+        }
+
+        // Appuyer sur la touche "R" pour simuler la reprise de l'application
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("Simulating app resuming...");
+            OnApplicationPause(false);
+        }
+    }
 }
