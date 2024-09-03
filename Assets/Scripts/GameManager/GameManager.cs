@@ -61,7 +61,9 @@ public class GameManager : MonoBehaviour
         Economy.OnAddGold += AddGold;
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnDeactivate += EffectSO_OnDeactivate;
+        EffectSO.OnInflict += EffectSO_OnInflict;
         Counter.OnNewSip += Counter_OnNewSip;
+        PlayerNetwork.OnChallengeSelect += PlayerNetwork_OnChallengeSelect;
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
     }
 
@@ -81,11 +83,6 @@ public class GameManager : MonoBehaviour
     private void Counter_OnNewSip(int amount) => Sips += amount;
 
     #region Economy
-    private void PlayerNetwork_OnChallengeCompleted(bool victory)
-    {
-        if (victory) AddGold(10);
-    }
-
     private void AddGold(int gold)
     {
         Gold += gold;
@@ -118,10 +115,28 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Challenges
+    private void PlayerNetwork_OnChallengeSelect(string challenge)
+    {
+        Vibrate();
+    }
+
+    private void PlayerNetwork_OnChallengeCompleted(bool victory)
+    {
+        if (victory) AddGold(10);
+    }
+    #endregion
+
     private void EffectSO_OnActivate(EffectSO effect)
     {
         CurrentEffects.Add(effect);
         RemoveGold(effect.Price);
+        Vibrate();
+    }
+
+    private void EffectSO_OnInflict(EffectSO effect)
+    {
+        Vibrate();
     }
 
     private void EffectSO_OnDeactivate(EffectSO effect) => CurrentEffects.Remove(effect);
@@ -138,5 +153,12 @@ public class GameManager : MonoBehaviour
     public void ShowNotification(string message)
     {
         Debug.Log(message);
+    }
+
+    private void Vibrate()
+    {
+#if UNITY_ANDROID || UNITY_IOS
+        Handheld.Vibrate();
+#endif
     }
 }
