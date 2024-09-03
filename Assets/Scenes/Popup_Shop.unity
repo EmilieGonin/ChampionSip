@@ -333,7 +333,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -400, y: -600}
+  m_SizeDelta: {x: -400, y: -800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &411117451
 MonoBehaviour:
@@ -778,6 +778,8 @@ MonoBehaviour:
   _instantLoad: 0
   _unloadCurrentScene: 1
   _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 3
 --- !u!114 &1591084137
 MonoBehaviour:
   m_ObjectHideFlags: 0
