@@ -16,5 +16,5 @@ MonoBehaviour:
   Description: "Votre compteur de gorg\xE9e \xE0 boire ne peux plus augmenter pendant
     5 minutes."
   Icon: {fileID: 240973750, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
-  Price: 35
+  Price: 30
   Timer: 5
