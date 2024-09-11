@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Boomerang
   Description: "La prochaine fois qu'un joueur tente de vous transf\xE9rer des gorg\xE9es,
     l'effet lui revient."
-  Icon: {fileID: -432762466, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
+  Icon: {fileID: -1175052177, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   Price: 35
   Timer: 0
+  IsInflicted: 0
