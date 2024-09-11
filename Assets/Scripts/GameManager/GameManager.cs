@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Application.runInBackground = true;
 
         RulesSO rulesSO = Resources.Load<RulesSO>("SO/Rules");
         RulesCategories = rulesSO.RulesCategories;

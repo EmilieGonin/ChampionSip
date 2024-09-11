@@ -41,7 +41,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (effect is DoubleSip or BottomsUp or SipTransfer)
+        if (effect.IsInflicted)
         {
             if (IsHost) InflictEffectClientRpc(effect.Name);
             else InflictEffectServerRpc(effect.Name);

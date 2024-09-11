@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class EffectSO : ScriptableObject
 {
@@ -13,6 +12,7 @@ public abstract class EffectSO : ScriptableObject
     public Sprite Icon;
     public int Price;
     public int Timer;
+    public bool IsInflicted;
 
     public virtual void Activate() => OnActivate?.Invoke(this);
     public virtual void Deactivate() => OnDeactivate?.Invoke(this);

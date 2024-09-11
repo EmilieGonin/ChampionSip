@@ -44,7 +44,8 @@ public class Counter : MonoBehaviour
 
     private void EffectSO_OnInflict(EffectSO effect)
     {
-        if (!_isStat && effect is SipTransfer) AddCounter(5);
+        if (effect is SipTransfer) AddCounter(5);
+        else if (effect is Tsunami) AddCounter(10);
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)

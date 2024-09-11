@@ -17,3 +17,4 @@ MonoBehaviour:
   Icon: {fileID: 2057210695, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   Price: 20
   Timer: 5
+  IsInflicted: 1

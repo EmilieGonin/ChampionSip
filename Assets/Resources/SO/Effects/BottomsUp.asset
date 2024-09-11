@@ -15,5 +15,6 @@ MonoBehaviour:
   Name: Cul sec
   Description: L'autre joueur doit boire son verre cul sec.
   Icon: {fileID: 21300000, guid: 13d8091d780e5ca4cbea1eb1d5356019, type: 3}
-  Price: 75
+  Price: 80
   Timer: 0
+  IsInflicted: 1
