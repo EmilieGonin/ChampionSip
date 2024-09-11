@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
         Economy.OnAddGold += AddGold;
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnDeactivate += EffectSO_OnDeactivate;
+        EffectSO.OnInflict += EffectSO_OnInflict;
         Counter.OnNewSip += Counter_OnNewSip;
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
     }
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
         Economy.OnAddGold -= AddGold;
         EffectSO.OnActivate -= EffectSO_OnActivate;
         EffectSO.OnDeactivate -= EffectSO_OnDeactivate;
-        EffectSO.OnInflict += EffectSO_OnInflict;
+        EffectSO.OnInflict -= EffectSO_OnInflict;
         Counter.OnNewSip -= Counter_OnNewSip;
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
@@ -126,16 +127,25 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public EffectSO GetEffectByName(string name) => Effects.Find(x => x.Name == name);
+    public bool HasEffect<T>() where T : EffectSO => CurrentEffects.OfType<T>().Any();
 
     private void EffectSO_OnActivate(EffectSO effect)
     {
-        CurrentEffects.Add(effect);
+        if (!effect.IsInflicted) CurrentEffects.Add(effect);
         RemoveGold(effect.Price);
         ShowNotification($"Vous avez activé l'effet <b>{effect.Name}</b> !");
     }
 
-    private void EffectSO_OnDeactivate(EffectSO effect) => CurrentEffects.Remove(effect);
-    private void EffectSO_OnInflict(EffectSO effect) => ShowNotification($"On vous a infligé l'effet <b>{effect.Name}</b> !");
+    private void EffectSO_OnDeactivate(EffectSO effect)
+    {
+        if (CurrentEffects.Contains(effect)) CurrentEffects.Remove(effect);
+    }
+
+    private void EffectSO_OnInflict(EffectSO effect)
+    {
+        if (effect.IsInflicted) CurrentEffects.Add(effect);
+        ShowNotification($"On vous a infligé l'effet <b>{effect.Name}</b> !");
+    }
 
     public void ShowError(string message)
     {

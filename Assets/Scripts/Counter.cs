@@ -64,6 +64,7 @@ public class Counter : MonoBehaviour
     public void AddCounter(int amount = 1)
     {
         if (!_isStat && _shieldIsUp) return;
+        if (GameManager.Instance.HasEffect<DoubleSip>()) amount *= 2;
         _counter += amount;
         _counterNumber.text = _counter.ToString();
         if (!_isStat) OnNewSip?.Invoke(amount);
