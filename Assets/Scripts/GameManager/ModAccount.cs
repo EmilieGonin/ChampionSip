@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -6,6 +8,9 @@ using UnityEngine;
 
 public class ModAccount : Module
 {
+    public string PlayerName { get; private set; }
+    private const string _namesPath = "Assets/Resources/PlayerNames.txt";
+
     async private void Awake()
     {
         try
@@ -13,7 +18,7 @@ public class ModAccount : Module
             await UnityServices.InitializeAsync();
             SetupEvents();
             await SignInAnonymouslyAsync();
-            //if (string.IsNullOrEmpty(PlayerName)) PlayerName = "Test";
+            ChooseRandomName();
         }
         catch (Exception e)
         {
@@ -56,5 +61,21 @@ public class ModAccount : Module
         {
             Debug.LogException(ex);
         }
+    }
+
+    private void ChooseRandomName()
+    {
+        List<string> names = new();
+
+        if (File.Exists(_namesPath))
+        {
+            string[] lines = File.ReadAllLines(_namesPath);
+            names.AddRange(lines);
+        }
+
+        int randomIndex = UnityEngine.Random.Range(0, names.Count);
+        PlayerName = names[randomIndex];
+
+        Debug.Log("Player name is " + PlayerName);
     }
 }
