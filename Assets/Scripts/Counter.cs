@@ -1,11 +1,11 @@
-using NaughtyAttributes;
 using System;
 using TMPro;
 using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public static event Action<Currency, int> OnCounterUpdate;
+    public static event Action<Currency, int> OnCounterAdd;
+    public static event Action<Currency, int> OnCounterRemove;
 
     [SerializeField] private TMP_Text _counterNumber;
     [SerializeField] private Currency _currency;
@@ -21,6 +21,12 @@ public class Counter : MonoBehaviour
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnDeactivate += EffectSO_OnDeactivate;
         EffectSO.OnInflict += EffectSO_OnInflict;
+    }
+
+    private void Start()
+    {
+        _counter = GameManager.Instance.Currencies[_currency];
+        _counterNumber.text = _counter.ToString();
     }
 
     private void OnDestroy()
@@ -68,7 +74,7 @@ public class Counter : MonoBehaviour
         if (GameManager.Instance.HasEffect<DoubleSip>()) amount *= 2;
         _counter += amount;
         _counterNumber.text = _counter.ToString();
-        OnCounterUpdate?.Invoke(_currency, amount);
+        OnCounterAdd?.Invoke(_currency, amount);
     }
 
     public void RemoveCounter(int amount = 1)
@@ -76,5 +82,6 @@ public class Counter : MonoBehaviour
         _counter -= amount;
         if (_counter < 0) _counter = 0;
         _counterNumber.text = _counter.ToString();
+        OnCounterRemove?.Invoke(_currency, amount);
     }
 }

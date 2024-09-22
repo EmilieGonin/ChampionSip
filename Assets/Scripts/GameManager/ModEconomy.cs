@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 
 public enum Currency
 {
@@ -14,32 +13,26 @@ public class ModEconomy : Module
 {
     public static event Action<Currency, int> OnCurrencyUpdate;
 
-    public int Golds => Currencies[Currency.Golds];
-    public int SipsToDrink => Currencies[Currency.SipsToDrink];
-
     public Dictionary<Currency, int> Currencies { get; private set; }
 
     private void Awake()
     {
         Economy.OnAddGold += (int amount) => AddCurrency(Currency.Golds, amount);
-        Counter.OnCounterUpdate += AddCurrency;
+        Counter.OnCounterAdd += AddCurrency;
+        Counter.OnCounterRemove += RemoveCurrency;
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
     }
 
     private void Start()
     {
-        Currencies = new();
-
-        foreach (Currency value in Enum.GetValues(typeof(Currency)))
-        {
-            Currencies[value] = 0;
-        }
+        Currencies = _manager.Data.GetCurrenciesData();
     }
 
     private void OnDestroy()
     {
         Economy.OnAddGold -= (int amount) => AddCurrency(Currency.Golds, amount);
-        Counter.OnCounterUpdate -= AddCurrency;
+        Counter.OnCounterAdd -= AddCurrency;
+        Counter.OnCounterRemove -= RemoveCurrency;
         PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
 

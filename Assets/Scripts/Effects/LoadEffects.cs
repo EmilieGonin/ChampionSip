@@ -12,7 +12,7 @@ public class LoadEffects : MonoBehaviour
             Effect effectObject = Instantiate(_effectPrefab, transform).GetComponent<Effect>();
             effectObject.Init(effect);
 
-            if (effect.Price > GameManager.Instance.Golds) effectObject.GetComponent<Button>().interactable = false;
+            if (effect.Price > GameManager.Instance.Currencies[Currency.Golds]) effectObject.GetComponent<Button>().interactable = false;
         }
     }
 }

@@ -31,8 +31,7 @@ public class GameManager : MonoBehaviour
     public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
 
     // Economy
-    public int Golds => Mod<ModEconomy>().Golds;
-    public int SipsToDrink => Mod<ModEconomy>().SipsToDrink;
+    public Dictionary<Currency, int> Currencies => Mod<ModEconomy>().Currencies;
     public void AddCurrency(Currency currency, int amount) => Mod<ModEconomy>().AddCurrency(currency, amount);
     public void RemoveCurrency(Currency currency, int amount) => Mod<ModEconomy>().RemoveCurrency(currency, amount);
 

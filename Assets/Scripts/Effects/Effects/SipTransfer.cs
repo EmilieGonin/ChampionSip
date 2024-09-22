@@ -5,7 +5,7 @@ public class SipTransfer : EffectSO
 {
     public override void Activate()
     {
-        if (GameManager.Instance.SipsToDrink < 5)
+        if (GameManager.Instance.Currencies[Currency.SipsToDrink] < 5)
         {
             GameManager.Instance.ShowError("Pas assez de gorgées à transférer.");
             return;
