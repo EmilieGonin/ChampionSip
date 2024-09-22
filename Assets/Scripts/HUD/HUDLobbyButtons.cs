@@ -1,29 +1,21 @@
 using TMPro;
 using UnityEngine;
 
-public class HUDLobbyButtons : MonoBehaviour
+public class HUDLobbyButtons : HUDButton
 {
     [SerializeField] private SceneHandler _sceneHandler;
     [SerializeField] private TMP_InputField _inputField;
 
-    //private void Awake()
-    //{
-    //    GameManager.OnLobbyCreated += _sceneHandler.Load;
-    //}
-
-    //private void OnDestroy()
-    //{
-    //    GameManager.OnLobbyCreated -= _sceneHandler.Load;
-    //}
-
     public async void CreateLobby()
     {
+        Click();
         if (!await GameManager.Instance.Mod<ModLobby>().CreateLobby()) return;
         _sceneHandler.Load();
     }
 
     public async void JoinLobby()
     {
+        Click();
         if (!await GameManager.Instance.Mod<ModLobby>().JoinLobby(_inputField.text)) return;
         _sceneHandler.Load();
     }
