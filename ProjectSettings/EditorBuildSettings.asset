@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Popup_ChallengesRoulette.unity
     guid: afb45f83cce39f243ba66ff766c7920c
   - enabled: 1
+    path: Assets/Scenes/Popup_GameData.unity
+    guid: 6e9f19c28c157094eb1a7251142c22c2
+  - enabled: 1
     path: Assets/Scenes/Popup_BottomsUp.unity
     guid: 9c49dcaccebe2ad43b6c0798376bfe34
   - enabled: 1

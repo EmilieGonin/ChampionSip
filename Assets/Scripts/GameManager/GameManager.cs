@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public SceneHandler NotificationSceneHandler;
 
     public GameData Data => Mod<ModGameData>().Data;
+    public void NewGameData() => Mod<ModGameData>().NewGameData();
 
     // Rules
     public Dictionary<string, int> Rules { get; private set; } = new();
@@ -69,6 +70,11 @@ public class GameManager : MonoBehaviour
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();
+
+    public void InitModules()
+    {
+        foreach (var module in _modules) module.Init();
+    }
 
     #region Rules
     public void AddRule(string rule)

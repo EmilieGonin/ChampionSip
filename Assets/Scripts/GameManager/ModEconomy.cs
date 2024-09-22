@@ -23,7 +23,7 @@ public class ModEconomy : Module
         PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
     }
 
-    private void Start()
+    public override void Init()
     {
         Currencies = _manager.Data.GetCurrenciesData();
     }

@@ -44,10 +44,11 @@ public class ModGameData : Module
         }
     }
 
-    private void NewGameData()
+    public void NewGameData()
     {
         Data = new();
         SaveGame();
+        _manager.InitModules();
     }
 
     private void UpdateCurrency(Currency currency, int amount)

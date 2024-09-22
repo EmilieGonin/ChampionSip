@@ -3,12 +3,13 @@ using Unity.Netcode;
 using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class ModLobby : Module
 {
     public string LobbyCode { get; private set; }
 
-    public async void CreateLobby()
+    public async Task<bool> CreateLobby()
     {
         _manager.LoadingScreenSceneHandler.Load();
         try
@@ -21,17 +22,21 @@ public class ModLobby : Module
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
             NetworkManager.Singleton.StartHost();
 
-            _manager.InvokeOnLobbyCreated();
+            //_manager.InvokeOnLobbyCreated();
+            return true;
         }
         catch (RelayServiceException ex)
         {
             Debug.LogException(ex);
+            return false;
         }
-
-        _manager.LoadingScreenSceneHandler.Unload();
+        finally
+        {
+            _manager.LoadingScreenSceneHandler.Unload();
+        }
     }
 
-    public async void JoinLobby(string code)
+    public async Task<bool> JoinLobby(string code)
     {
         _manager.LoadingScreenSceneHandler.Load();
 
@@ -42,15 +47,19 @@ public class ModLobby : Module
             NetworkManager.Singleton.StartClient();
 
             LobbyCode = code.ToUpper();
-            _manager.InvokeOnLobbyCreated();
+            //_manager.InvokeOnLobbyCreated();
+            return true;
         }
         catch (RelayServiceException ex)
         {
             Debug.LogException(ex);
             _manager.ShowError("Impossible de se connecter au lobby.");
+            return false;
         }
-
-        _manager.LoadingScreenSceneHandler.Unload();
+        finally
+        {
+            _manager.LoadingScreenSceneHandler.Unload();
+        }
     }
 
     public async void Reconnect(bool isHost)

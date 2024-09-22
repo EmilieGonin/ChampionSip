@@ -79,8 +79,8 @@ public class Counter : MonoBehaviour
 
     public void RemoveCounter(int amount = 1)
     {
+        if (_counter == 0) return;
         _counter -= amount;
-        if (_counter < 0) _counter = 0;
         _counterNumber.text = _counter.ToString();
         OnCounterRemove?.Invoke(_currency, amount);
     }
