@@ -1,13 +1,14 @@
+using NaughtyAttributes;
 using System;
 using TMPro;
 using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public static event Action<int> OnNewSip;
+    public static event Action<Currency, int> OnCounterUpdate;
 
     [SerializeField] private TMP_Text _counterNumber;
-    [SerializeField] private bool _isStat;
+    [SerializeField] private Currency _currency;
 
     private bool _shieldIsUp;
     private bool _challengeShieldIsUp;
@@ -32,7 +33,7 @@ public class Counter : MonoBehaviour
 
     private void EffectSO_OnActivate(EffectSO effect)
     {
-        if (effect is SipTransfer && !_isStat) RemoveCounter(5);
+        if (effect is SipTransfer && _currency == Currency.SipsToDrink) RemoveCounter(5);
         else if (effect is ChallengeShield) _challengeShieldIsUp = true;
         else if (effect is Shield) _shieldIsUp = true;
     }
@@ -50,7 +51,7 @@ public class Counter : MonoBehaviour
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)
     {
-        if (_isStat || victory || _shieldIsUp) return;
+        if (_currency == Currency.Sips || victory || _shieldIsUp) return;
 
         if (_challengeShieldIsUp)
         {
@@ -63,11 +64,11 @@ public class Counter : MonoBehaviour
 
     public void AddCounter(int amount = 1)
     {
-        if (!_isStat && _shieldIsUp) return;
+        if (_currency == Currency.SipsToDrink && _shieldIsUp) return;
         if (GameManager.Instance.HasEffect<DoubleSip>()) amount *= 2;
         _counter += amount;
         _counterNumber.text = _counter.ToString();
-        if (!_isStat) OnNewSip?.Invoke(amount);
+        OnCounterUpdate?.Invoke(_currency, amount);
     }
 
     public void RemoveCounter(int amount = 1)

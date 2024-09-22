@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,7 +8,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public static event Action OnLobbyCreated;
-
     public static event Action OnRulesChange;
 
     [SerializeField] private List<Module> _modules = new();
@@ -19,8 +17,7 @@ public class GameManager : MonoBehaviour
     public SceneHandler ErrorSceneHandler;
     public SceneHandler NotificationSceneHandler;
 
-    //Economy
-    public int Gold { get; private set; } = 0;
+    public GameData Data => Mod<ModGameData>().Data;
 
     // Rules
     public Dictionary<string, int> Rules { get; private set; } = new();
@@ -30,10 +27,21 @@ public class GameManager : MonoBehaviour
     // Challenges
     public List<string> Challenges { get; private set; } = new();
 
+    // Lobby
+    public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
+
+    // Economy
+    public int Golds => Mod<ModEconomy>().Golds;
+    public int SipsToDrink => Mod<ModEconomy>().SipsToDrink;
+    public void AddCurrency(Currency currency, int amount) => Mod<ModEconomy>().AddCurrency(currency, amount);
+    public void RemoveCurrency(Currency currency, int amount) => Mod<ModEconomy>().RemoveCurrency(currency, amount);
+
     //Effects
-    public List<EffectSO> Effects { get; private set; } = new();
-    public List<EffectSO> CurrentEffects { get; private set; } = new();
-    public int Sips { get; private set; } = 0;
+    public List<EffectSO> Effects => Mod<ModEffects>().Effects;
+    public List<EffectSO> CurrentEffects => Mod<ModEffects>().CurrentEffects;
+
+    public EffectSO GetEffectByName(string name) => Mod<ModEffects>().GetEffectByName(name);
+    public bool HasEffect<T>() where T : EffectSO => Mod<ModEffects>().HasEffect<T>();
 
     public string ErrorMessage { get; private set; }
     public string NotificationMessage { get; private set; }
@@ -59,44 +67,9 @@ public class GameManager : MonoBehaviour
         }
 
         Challenges = Resources.Load<ChallengesSO>("SO/Challenges").Challenges;
-
-        Effects = Resources.LoadAll<EffectSO>("SO/Effects").OrderBy(x => x.Price).ToList();
-
-        Economy.OnAddGold += AddGold;
-        EffectSO.OnActivate += EffectSO_OnActivate;
-        EffectSO.OnDeactivate += EffectSO_OnDeactivate;
-        EffectSO.OnInflict += EffectSO_OnInflict;
-        Counter.OnNewSip += Counter_OnNewSip;
-        PlayerNetwork.OnChallengeCompleted += PlayerNetwork_OnChallengeCompleted;
-    }
-
-    private void OnDestroy()
-    {
-        Economy.OnAddGold -= AddGold;
-        EffectSO.OnActivate -= EffectSO_OnActivate;
-        EffectSO.OnDeactivate -= EffectSO_OnDeactivate;
-        EffectSO.OnInflict -= EffectSO_OnInflict;
-        Counter.OnNewSip -= Counter_OnNewSip;
-        PlayerNetwork.OnChallengeCompleted -= PlayerNetwork_OnChallengeCompleted;
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();
-
-    public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
-
-    private void Counter_OnNewSip(int amount) => Sips += amount;
-
-    #region Economy
-    private void AddGold(int gold)
-    {
-        Gold += gold;
-    }
-
-    private void RemoveGold(int gold)
-    {
-        Gold -= gold;
-    }
-    #endregion
 
     #region Rules
     public void AddRule(string rule)
@@ -118,34 +91,6 @@ public class GameManager : MonoBehaviour
         OnRulesChange?.Invoke();
     }
     #endregion
-
-    #region Challenges
-    private void PlayerNetwork_OnChallengeCompleted(bool victory)
-    {
-        if (victory) AddGold(10);
-    }
-    #endregion
-
-    public EffectSO GetEffectByName(string name) => Effects.Find(x => x.Name == name);
-    public bool HasEffect<T>() where T : EffectSO => CurrentEffects.OfType<T>().Any();
-
-    private void EffectSO_OnActivate(EffectSO effect)
-    {
-        if (!effect.IsInflicted) CurrentEffects.Add(effect);
-        RemoveGold(effect.Price);
-        ShowNotification($"Vous avez activé l'effet <b>{effect.Name}</b> !");
-    }
-
-    private void EffectSO_OnDeactivate(EffectSO effect)
-    {
-        if (CurrentEffects.Contains(effect)) CurrentEffects.Remove(effect);
-    }
-
-    private void EffectSO_OnInflict(EffectSO effect)
-    {
-        if (effect.IsInflicted) CurrentEffects.Add(effect);
-        ShowNotification($"On vous a infligé l'effet <b>{effect.Name}</b> !");
-    }
 
     public void ShowError(string message)
     {

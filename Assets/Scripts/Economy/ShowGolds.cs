@@ -7,9 +7,20 @@ public class ShowGolds : MonoBehaviour
 
     private int _goldInt;
 
-    private void Update()
+    private void Awake()
     {
-        _goldInt = GameManager.Instance.Gold;
+        ModEconomy.OnCurrencyUpdate += ModEconomy_OnCurrencyUpdate;
+    }
+
+    private void OnDestroy()
+    {
+        ModEconomy.OnCurrencyUpdate -= ModEconomy_OnCurrencyUpdate;
+    }
+
+    private void ModEconomy_OnCurrencyUpdate(Currency currency, int amount)
+    {
+        if (currency != Currency.Golds) return;
+        _goldInt = amount;
         _gold.text = _goldInt.ToString();
     }
 }

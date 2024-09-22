@@ -107,7 +107,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!pauseStatus)
         {
             GameManager.Instance.ShowNotification("Reconnecting");
-            GameManager.Instance.Mod<ModAccount>().Reconnect(IsHost);
+            GameManager.Instance.Mod<ModLobby>().Reconnect(IsHost);
         }
     }
 

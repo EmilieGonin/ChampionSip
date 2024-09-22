@@ -16,6 +16,6 @@ public class LobbyButtons : MonoBehaviour
         GameManager.OnLobbyCreated -= _sceneHandler.Load;
     }
 
-    public void CreateLobby() => GameManager.Instance.Mod<ModAccount>().CreateLobby();
-    public void JoinLobby() => GameManager.Instance.Mod<ModAccount>().JoinLobby(_inputField.text);
+    public void CreateLobby() => GameManager.Instance.Mod<ModLobby>().CreateLobby();
+    public void JoinLobby() => GameManager.Instance.Mod<ModLobby>().JoinLobby(_inputField.text);
 }

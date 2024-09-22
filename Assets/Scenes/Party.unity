@@ -1994,7 +1994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 330298971}
-  _isStat: 1
+  _currency: 2
 --- !u!1 &777497250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2809,7 +2809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 869871909}
-  _isStat: 0
+  _currency: 1
 --- !u!1 &1030476086
 GameObject:
   m_ObjectHideFlags: 0
@@ -3341,7 +3341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 17006019}
-  _isStat: 0
+  _currency: 0
 --- !u!1 &1106761154
 GameObject:
   m_ObjectHideFlags: 0
@@ -4302,7 +4302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterNumber: {fileID: 374510141}
-  _isStat: 1
+  _currency: 3
 --- !u!1 &1534426616
 GameObject:
   m_ObjectHideFlags: 0
