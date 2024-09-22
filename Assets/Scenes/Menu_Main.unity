@@ -1168,6 +1168,7 @@ GameObject:
   - component: {fileID: 1856471007}
   - component: {fileID: 1856471011}
   - component: {fileID: 1856471012}
+  - component: {fileID: 1856471013}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1270,7 +1271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e90facf2f985c8408ca5f056265b0a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneHandler: {fileID: 1856471012}
+  _dataSceneHandler: {fileID: 1856471012}
+  _partySceneHandler: {fileID: 1856471013}
   _inputField: {fileID: 0}
 --- !u!114 &1856471012
 MonoBehaviour:
@@ -1291,6 +1293,25 @@ MonoBehaviour:
   _sceneToUnload: 
   _popupTimeout: 0
   _timeoutDuration: 0
+--- !u!114 &1856471013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856471006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c41c0127e69a714eabdfb61f163d392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToLoad: Party
+  _loadAsAdditive: 0
+  _instantLoad: 0
+  _unloadCurrentScene: 1
+  _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 3
 --- !u!1001 &2369996080595384830
 PrefabInstance:
   m_ObjectHideFlags: 0

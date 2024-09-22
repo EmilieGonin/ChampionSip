@@ -3,20 +3,25 @@ using UnityEngine;
 
 public class HUDLobbyButtons : HUDButton
 {
-    [SerializeField] private SceneHandler _sceneHandler;
+    [SerializeField] private SceneHandler _dataSceneHandler;
+    [SerializeField] private SceneHandler _partySceneHandler;
     [SerializeField] private TMP_InputField _inputField;
 
     public async void CreateLobby()
     {
         Click();
         if (!await GameManager.Instance.Mod<ModLobby>().CreateLobby()) return;
-        _sceneHandler.Load();
+
+        if (GameManager.Instance.IsNewGame) _partySceneHandler.Load();
+        else _dataSceneHandler.Load();
     }
 
     public async void JoinLobby()
     {
         Click();
         if (!await GameManager.Instance.Mod<ModLobby>().JoinLobby(_inputField.text)) return;
-        _sceneHandler.Load();
+
+        if (GameManager.Instance.IsNewGame) _partySceneHandler.Load();
+        else _dataSceneHandler.Load();
     }
 }

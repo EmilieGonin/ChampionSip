@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public SceneHandler NotificationSceneHandler;
 
     public GameData Data => Mod<ModGameData>().Data;
+    public bool IsNewGame => Mod<ModGameData>().IsNewGame;
     public void NewGameData() => Mod<ModGameData>().NewGameData();
 
     // Rules

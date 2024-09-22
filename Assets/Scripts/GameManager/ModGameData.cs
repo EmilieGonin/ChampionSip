@@ -4,23 +4,26 @@ using UnityEngine;
 public class ModGameData : Module
 {
     public GameData Data { get; private set; }
+    public bool IsNewGame { get; private set; }
     private string _savePath;
 
     public Dictionary<Currency, int> CurrenciesData;
 
     private void Awake()
     {
-        _savePath = Application.persistentDataPath + "/GameData.json";
-
-        LoadGame();
-        //NewGameData();
-
         ModEconomy.OnCurrencyUpdate += UpdateCurrency;
     }
 
     private void OnDestroy()
     {
         ModEconomy.OnCurrencyUpdate -= UpdateCurrency;
+    }
+
+    private void Start()
+    {
+        _savePath = Application.persistentDataPath + "/GameData.json";
+
+        LoadGame();
     }
 
     private void SaveGame()
@@ -36,6 +39,7 @@ public class ModGameData : Module
             string json = System.IO.File.ReadAllText(_savePath);
             Data = JsonUtility.FromJson<GameData>(json);
             Debug.Log("Save file found at " + _savePath);
+            IsNewGame = false;
         }
         else
         {
@@ -46,6 +50,7 @@ public class ModGameData : Module
 
     public void NewGameData()
     {
+        IsNewGame = true;
         Data = new();
         SaveGame();
         _manager.InitModules();
