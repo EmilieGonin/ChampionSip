@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action<string> OnChallengeSelect;
     public static event Action<bool> OnChallengeCompleted; // true = victory
+    public static event Action<Currency, int> OnCounterAdd;
+    public static event Action<string> OnGetFriendName;
+    public static event Action<int, int> OnGetFriendStats;
 
     public override void OnNetworkSpawn()
     {
@@ -18,6 +22,27 @@ public class PlayerNetwork : NetworkBehaviour
 
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
+
+        Counter.OnCounterAdd += Counter_OnCounterAdd;
+
+        if (!IsOwner || IsHost) return;
+        SendPlayerDatasServerRpc(
+            GameManager.Instance.PlayerName,
+            GameManager.Instance.Currencies[Currency.Sips],
+            GameManager.Instance.Currencies[Currency.Shots]);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        HUDChallengeButton.OnChallengeSelect -= HUDChallengeButton_OnChallengeSelect;
+        HUDChallengeButton.OnChallengeCompleted -= HUDChallengeButton_OnChallengeCompleted;
+        EffectSO.OnActivate -= EffectSO_OnActivate;
+
+        NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
+
+        Counter.OnCounterAdd -= Counter_OnCounterAdd;
     }
 
     private void Singleton_OnClientDisconnectCallback(ulong id)
@@ -29,6 +54,11 @@ public class PlayerNetwork : NetworkBehaviour
     private void Singleton_OnClientConnectedCallback(ulong id)
     {
         if (!IsOwner) return;
+
+        if (IsHost) SendPlayerDatasClientRpc(
+            GameManager.Instance.PlayerName,
+            GameManager.Instance.Currencies[Currency.Sips],
+            GameManager.Instance.Currencies[Currency.Shots]);
 
         if (OwnerClientId == id)
         {
@@ -48,17 +78,6 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-        HUDChallengeButton.OnChallengeSelect -= HUDChallengeButton_OnChallengeSelect;
-        HUDChallengeButton.OnChallengeCompleted -= HUDChallengeButton_OnChallengeCompleted;
-        EffectSO.OnActivate -= EffectSO_OnActivate;
-
-        NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
-        NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
-    }
-
     private void HUDChallengeButton_OnChallengeSelect(string challenge)
     {
         if (!IsOwner) return;
@@ -75,9 +94,22 @@ public class PlayerNetwork : NetworkBehaviour
         OnChallengeCompleted?.Invoke(true);
     }
 
+    private void Counter_OnCounterAdd(Currency currency, int amount)
+    {
+        if (!IsOwner || currency == Currency.SipsToDrink) return;
+        if (IsHost) AddCounterClientRpc(currency, amount);
+        else AddCounterServerRpc(currency, amount);
+    }
+
     [ServerRpc] private void SelectChallengeServerRpc(string challenge) => OnChallengeSelect?.Invoke(challenge);
     [ServerRpc] private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
     [ServerRpc] private void InflictEffectServerRpc(string effect) => GameManager.Instance.GetEffectByName(effect).Inflict();
+    [ServerRpc] private void AddCounterServerRpc(Currency currency, int amount) => OnCounterAdd?.Invoke(currency, amount);
+    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots)
+    {
+        OnGetFriendName?.Invoke(name);
+        OnGetFriendStats?.Invoke(sips, shots);
+    }
 
     [ClientRpc]
     private void SelectChallengeClientRpc(string challenge)
@@ -98,6 +130,21 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (IsHost) return;
         GameManager.Instance.GetEffectByName(effect).Inflict();
+    }
+
+    [ClientRpc]
+    private void AddCounterClientRpc(Currency currency, int amount)
+    {
+        if (IsHost) return;
+        OnCounterAdd?.Invoke(currency, amount);
+    }
+
+    [ClientRpc]
+    private void SendPlayerDatasClientRpc(string name, int sips, int shots)
+    {
+        if (IsHost) return;
+        OnGetFriendName?.Invoke(name);
+        OnGetFriendStats?.Invoke(sips, shots);
     }
 
     private void OnApplicationPause(bool pauseStatus)

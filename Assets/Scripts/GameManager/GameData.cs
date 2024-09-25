@@ -4,10 +4,10 @@ using System.Collections.Generic;
 [Serializable]
 public class GameData
 {
-    public int Golds;
-    public int SipsToDrink;
-    public int Sips;
-    public int Shots;
+    public int Golds = 0;
+    public int SipsToDrink = 0;
+    public int Sips = 0;
+    public int Shots = 0;
 
     public Dictionary<Currency, int> GetCurrenciesData()
     {

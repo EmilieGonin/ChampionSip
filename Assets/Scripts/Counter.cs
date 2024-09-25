@@ -9,6 +9,7 @@ public class Counter : MonoBehaviour
 
     [SerializeField] private TMP_Text _counterNumber;
     [SerializeField] private Currency _currency;
+    [SerializeField] private bool _isOwner;
 
     private bool _shieldIsUp;
     private bool _challengeShieldIsUp;
@@ -21,10 +22,15 @@ public class Counter : MonoBehaviour
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnDeactivate += EffectSO_OnDeactivate;
         EffectSO.OnInflict += EffectSO_OnInflict;
+
+        if (_isOwner) return;
+        PlayerNetwork.OnCounterAdd += PlayerNetwork_OnCounterAdd;
+        PlayerNetwork.OnGetFriendStats += PlayerNetwork_OnGetFriendStats;
     }
 
     private void Start()
     {
+        if (!_isOwner) return;
         _counter = GameManager.Instance.Currencies[_currency];
         _counterNumber.text = _counter.ToString();
     }
@@ -35,6 +41,10 @@ public class Counter : MonoBehaviour
         EffectSO.OnActivate -= EffectSO_OnActivate;
         EffectSO.OnDeactivate -= EffectSO_OnDeactivate;
         EffectSO.OnInflict -= EffectSO_OnInflict;
+
+        if (_isOwner) return;
+        PlayerNetwork.OnCounterAdd -= PlayerNetwork_OnCounterAdd;
+        PlayerNetwork.OnGetFriendStats -= PlayerNetwork_OnGetFriendStats;
     }
 
     private void EffectSO_OnActivate(EffectSO effect)
@@ -68,13 +78,33 @@ public class Counter : MonoBehaviour
         AddCounter(5);
     }
 
+    private void PlayerNetwork_OnCounterAdd(Currency currency, int amount)
+    {
+        if (currency != _currency) return;
+        AddCounter(amount);
+    }
+
+    private void PlayerNetwork_OnGetFriendStats(int sips, int shots)
+    {
+        if (_currency == Currency.Sips)
+        {
+            _counter = sips;
+            _counterNumber.text = _counter.ToString();
+        }
+        else if (_currency == Currency.Shots)
+        {
+            _counter = shots;
+            _counterNumber.text = _counter.ToString();
+        }
+    }
+
     public void AddCounter(int amount = 1)
     {
         if (_currency == Currency.SipsToDrink && _shieldIsUp) return;
         if (GameManager.Instance.HasEffect<DoubleSip>()) amount *= 2;
         _counter += amount;
         _counterNumber.text = _counter.ToString();
-        OnCounterAdd?.Invoke(_currency, amount);
+        if (_isOwner) OnCounterAdd?.Invoke(_currency, amount);
     }
 
     public void RemoveCounter(int amount = 1)

@@ -53,7 +53,6 @@ public class ModGameData : Module
         IsNewGame = true;
         Data = new();
         SaveGame();
-        _manager.InitModules();
     }
 
     private void UpdateCurrency(Currency currency, int amount)

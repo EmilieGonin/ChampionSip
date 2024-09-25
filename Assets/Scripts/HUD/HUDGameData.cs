@@ -8,7 +8,7 @@ public class HUDGameData : HUDButton
     {
         Click();
         if (reset) GameManager.Instance.NewGameData();
-        else GameManager.Instance.InitModules();
+        GameManager.Instance.InitModules();
         _sceneHandler.Load();
     }
 }

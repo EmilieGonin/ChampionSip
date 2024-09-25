@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 public class ModLobby : Module
 {
     public string LobbyCode { get; private set; }
+    public bool IsHost { get; private set; }
 
     public async Task<bool> CreateLobby()
     {
@@ -22,7 +23,7 @@ public class ModLobby : Module
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new(a, "dtls"));
             NetworkManager.Singleton.StartHost();
 
-            //_manager.InvokeOnLobbyCreated();
+            IsHost = true;
             return true;
         }
         catch (RelayServiceException ex)
@@ -47,7 +48,7 @@ public class ModLobby : Module
             NetworkManager.Singleton.StartClient();
 
             LobbyCode = code.ToUpper();
-            //_manager.InvokeOnLobbyCreated();
+            IsHost = false;
             return true;
         }
         catch (RelayServiceException ex)

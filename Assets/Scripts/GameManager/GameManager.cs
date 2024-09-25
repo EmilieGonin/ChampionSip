@@ -29,8 +29,11 @@ public class GameManager : MonoBehaviour
     // Challenges
     public List<string> Challenges { get; private set; } = new();
 
+    // Account
+    public string PlayerName => Mod<ModAccount>().PlayerName;
+
     // Lobby
-    public void InvokeOnLobbyCreated() => OnLobbyCreated?.Invoke();
+    public bool IsHost => Mod<ModLobby>().IsHost;
 
     // Economy
     public Dictionary<Currency, int> Currencies => Mod<ModEconomy>().Currencies;
