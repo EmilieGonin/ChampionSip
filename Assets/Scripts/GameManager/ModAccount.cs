@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -9,10 +8,12 @@ using UnityEngine;
 public class ModAccount : Module
 {
     public string PlayerName { get; private set; }
-    private const string _namesPath = "Assets/Resources/PlayerNames.txt";
+    private TextAsset _namesPath;
 
     async private void Awake()
     {
+        _namesPath = Resources.Load<TextAsset>("PlayerNames");
+
         try
         {
             await UnityServices.InitializeAsync();
@@ -67,11 +68,8 @@ public class ModAccount : Module
     {
         List<string> names = new();
 
-        if (File.Exists(_namesPath))
-        {
-            string[] lines = File.ReadAllLines(_namesPath);
-            names.AddRange(lines);
-        }
+        string[] lines = _namesPath.text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        names.AddRange(lines);
 
         int randomIndex = UnityEngine.Random.Range(0, names.Count);
         PlayerName = names[randomIndex];

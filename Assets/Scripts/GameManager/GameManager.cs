@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public static event Action OnLobbyCreated;
     public static event Action OnRulesChange;
 
     [SerializeField] private List<Module> _modules = new();
