@@ -1135,11 +1135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c41c0127e69a714eabdfb61f163d392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: Party
+  _sceneToLoad: Popup_GameData
   _loadAsAdditive: 0
   _instantLoad: 0
-  _unloadCurrentScene: 1
-  _sceneToUnload: 
+  _unloadCurrentScene: 0
+  _sceneToUnload: Popup_GameData
   _popupTimeout: 0
   _timeoutDuration: 3
 --- !u!1660057539 &9223372036854775807

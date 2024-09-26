@@ -61,8 +61,8 @@ public class Counter : MonoBehaviour
 
     private void EffectSO_OnInflict(EffectSO effect)
     {
-        if (effect is SipTransfer) AddCounter(5);
-        else if (effect is Tsunami) AddCounter(10);
+        if (effect is SipTransfer && _currency == Currency.SipsToDrink) AddCounter(5);
+        else if (effect is Tsunami && _currency == Currency.SipsToDrink) AddCounter(10);
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)

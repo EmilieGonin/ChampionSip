@@ -57,10 +57,10 @@ public class ModLobby : Module
             _manager.ShowError("Impossible de se connecter au lobby.");
             return false;
         }
-        finally
-        {
-            _manager.LoadingScreenSceneHandler.Unload();
-        }
+        //finally
+        //{
+        //    _manager.LoadingScreenSceneHandler.Unload();
+        //}
     }
 
     public async void Reconnect(bool isHost)

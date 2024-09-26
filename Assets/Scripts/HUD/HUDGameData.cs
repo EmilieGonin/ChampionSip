@@ -9,6 +9,6 @@ public class HUDGameData : HUDButton
         Click();
         if (reset) GameManager.Instance.NewGameData();
         GameManager.Instance.InitModules();
-        _sceneHandler.Load();
+        _sceneHandler.Unload();
     }
 }

@@ -55,7 +55,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (IsHost) SendPlayerDatasClientRpc(
+        if (IsHost && OwnerClientId != id) SendPlayerDatasClientRpc(
             GameManager.Instance.PlayerName,
             GameManager.Instance.Currencies[Currency.Sips],
             GameManager.Instance.Currencies[Currency.Shots]);
@@ -96,7 +96,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Counter_OnCounterAdd(Currency currency, int amount)
     {
-        if (!IsOwner || currency == Currency.SipsToDrink) return;
+        if (!IsOwner) return;
         if (IsHost) AddCounterClientRpc(currency, amount);
         else AddCounterServerRpc(currency, amount);
     }

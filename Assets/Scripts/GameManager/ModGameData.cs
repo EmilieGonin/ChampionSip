@@ -12,6 +12,10 @@ public class ModGameData : Module
     private void Awake()
     {
         ModEconomy.OnCurrencyUpdate += UpdateCurrency;
+
+        _savePath = Application.persistentDataPath + "/GameData.json";
+
+        LoadGame();
     }
 
     private void OnDestroy()
@@ -19,12 +23,12 @@ public class ModGameData : Module
         ModEconomy.OnCurrencyUpdate -= UpdateCurrency;
     }
 
-    private void Start()
-    {
-        _savePath = Application.persistentDataPath + "/GameData.json";
+    //private void Start()
+    //{
+    //    _savePath = Application.persistentDataPath + "/GameData.json";
 
-        LoadGame();
-    }
+    //    LoadGame();
+    //}
 
     private void SaveGame()
     {

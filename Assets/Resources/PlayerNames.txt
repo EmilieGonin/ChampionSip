@@ -1,100 +1,55 @@
-DrunkenPenguin
-SippyCactus
-WittyWalrus
-CheekyMonkey
-PartyPanda
-FuzzyFizz
-GiddyGiraffe
-BubblyBuffalo
-SassySquirrel
-TipsyTurtle
-JollyJellyfish
-NiftyNarwhal
-GiggleGopher
-FrothyFox
-QuirkyQuokka
-RambunctiousRaccoon
-SillySeahorse
-MirthfulMongoose
-CrazyCrab
-WhimsicalWombat
-HappyHedgehog
-ChipperChipmunk
-BlitheBison
-JumpyJackrabbit
-FuzzyFerret
-DapperDolphin
-BreezyBeaver
-BouncyButterfly
-ZanyZebra
-LaughingLynx
-WaggishWhale
-PoppyPheasant
-SnazzySloth
-JiveyJaguar
-PlayfulPuma
-WackyWalnut
-MerryMacaw
-DandyDingo
-RadiantRaven
-CheeryChinchilla
-ZestyZorse
-SillySalamander
-BubblyBee
-HappyHippo
-WhirlwindWren
-GigglyGoose
-ChortlingChinchilla
-SpunkySkunk
-FrolickingFlamingo
-GleefulGazelle
-TicklishTurtle
-BlazingBadger
-MerryMole
-DrollDragonfly
-AmusedAntelope
-JocularJaguar
-PeppyPigeon
-SprightlySeagull
-VividVulture
-JestingJackal
-CheeryCrow
-LivelyLlama
-RoaringRaptor
-SnickerSnail
-ZippyZorilla
-HappyHummingbird
-JollyJackrabbit
-VibrantViper
-EagerEagle
-MirthfulMarmot
-GleamingGoldfish
-SpicySparrow
-JazzyJellybean
-ChummyChipmunk
-JovialJay
-QuirkyQuail
-GiddyGoat
-ChucklingCheetah
-SprySquid
-CheekyChinchilla
-BuoyantBuffoon
-FriskyFerret
-AmusingArmadillo
-GrinningGibbon
-DazzlingDove
-PeppyPelican
-BubblyBat
-WittyWren
-CarefreeCoyote
-MerryMacaw
-SnappySalamander
-CheeryCockatoo
-JumpyJaguar
-ZanyZebrafish
-FrothyFlounder
-GleefulGecko
-HappyHedgehog
-ChucklingCricket
-BouncingBunny
-SassySeal
+﻿Chaton Curieux
+Renard Rusé
+Ours Jovial
+Loup Agile
+Chien Fidèle
+Panda Paisible
+Cerf Vaillant
+Dauphin Joyeux
+Écureuil Enjoué
+Tigre Courageux
+Hérisson Tranquille
+Furet Malin
+Zèbre Rayé
+Singe Habile
+Tortue Géniale
+Hibou Serein
+Chouette Vigilante
+Lynx Discret
+Lion Puissant
+Lapin Vif
+Castor Dévoué
+Koala Doux
+Marmotte Douce
+Corbeau Observateur
+Chameau Endurant
+Pingouin Glacial
+Gecko Gracieux
+Otarie Joueur
+Flamant Chic
+Puma Mystérieux
+Loutre Aventurière
+Gorille Fort
+Hamster Diligent
+Perroquet Coloré
+Bison Solide
+Guépard Rapide
+Phoque Amical
+Mouette Légère
+Léopard Intrépide
+Chevreuil Svelte
+Héron Élégant
+Crocodile Calme
+Lièvre Alerte
+Bélier Brave
+Jaguar Sombre
+Pélican Patient
+Antilope Gracieuse
+Oie Noble
+Grizzly Rugissant
+Dragon Majestueux
+Licorne Enchantée
+Phénix Radieux
+Mésange Vive
+Chacal Astucieux
+T-Rex Féroce
