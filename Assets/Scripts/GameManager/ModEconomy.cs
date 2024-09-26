@@ -41,15 +41,21 @@ public class ModEconomy : Module
         Currencies[currency] += amount;
         OnCurrencyUpdate?.Invoke(currency, Currencies[currency]);
 
-        if (currency == Currency.SipsToDrink) AddCurrency(Currency.Sips, amount);
+        switch (currency)
+        {
+            case Currency.Sips:
+                AddCurrency(Currency.Golds, 1);
+                break;
+            case Currency.Shots:
+                AddCurrency(Currency.Golds, 5);
+                break;
+        }
     }
 
     public void RemoveCurrency(Currency currency, int amount)
     {
         Currencies[currency] -= amount;
         OnCurrencyUpdate?.Invoke(currency, Currencies[currency]);
-
-        if (currency == Currency.SipsToDrink) RemoveCurrency(Currency.Sips, amount);
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool win)

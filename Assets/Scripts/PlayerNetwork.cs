@@ -7,7 +7,7 @@ public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action<string> OnChallengeSelect;
     public static event Action<bool> OnChallengeCompleted; // true = victory
-    public static event Action<Currency, int> OnCounterAdd;
+    public static event Action<Currency, int> OnCurrencyUpdate;
     public static event Action<string> OnGetFriendName;
     public static event Action<int, int> OnGetFriendStats;
 
@@ -23,7 +23,7 @@ public class PlayerNetwork : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
 
-        Counter.OnCounterAdd += Counter_OnCounterAdd;
+        ModEconomy.OnCurrencyUpdate += ModEconomy_OnCurrencyUpdate;
 
         if (!IsOwner || IsHost) return;
         SendPlayerDatasServerRpc(
@@ -42,7 +42,7 @@ public class PlayerNetwork : NetworkBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
 
-        Counter.OnCounterAdd -= Counter_OnCounterAdd;
+        ModEconomy.OnCurrencyUpdate -= ModEconomy_OnCurrencyUpdate;
     }
 
     private void Singleton_OnClientDisconnectCallback(ulong id)
@@ -94,17 +94,17 @@ public class PlayerNetwork : NetworkBehaviour
         OnChallengeCompleted?.Invoke(true);
     }
 
-    private void Counter_OnCounterAdd(Currency currency, int amount)
+    private void ModEconomy_OnCurrencyUpdate(Currency currency, int amount)
     {
         if (!IsOwner) return;
-        if (IsHost) AddCounterClientRpc(currency, amount);
-        else AddCounterServerRpc(currency, amount);
+        if (IsHost) UpdateCurrencyClientRpc(currency, amount);
+        else UpdateCurrencyServerRpc(currency, amount);
     }
 
     [ServerRpc] private void SelectChallengeServerRpc(string challenge) => OnChallengeSelect?.Invoke(challenge);
     [ServerRpc] private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
     [ServerRpc] private void InflictEffectServerRpc(string effect) => GameManager.Instance.GetEffectByName(effect).Inflict();
-    [ServerRpc] private void AddCounterServerRpc(Currency currency, int amount) => OnCounterAdd?.Invoke(currency, amount);
+    [ServerRpc] private void UpdateCurrencyServerRpc(Currency currency, int amount) => OnCurrencyUpdate?.Invoke(currency, amount);
     [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots)
     {
         OnGetFriendName?.Invoke(name);
@@ -133,10 +133,10 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void AddCounterClientRpc(Currency currency, int amount)
+    private void UpdateCurrencyClientRpc(Currency currency, int amount)
     {
         if (IsHost) return;
-        OnCounterAdd?.Invoke(currency, amount);
+        OnCurrencyUpdate?.Invoke(currency, amount);
     }
 
     [ClientRpc]

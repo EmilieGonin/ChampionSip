@@ -57,10 +57,6 @@ public class ModLobby : Module
             _manager.ShowError("Impossible de se connecter au lobby.");
             return false;
         }
-        //finally
-        //{
-        //    _manager.LoadingScreenSceneHandler.Unload();
-        //}
     }
 
     public async void Reconnect(bool isHost)
@@ -84,45 +80,4 @@ public class ModLobby : Module
 
         _manager.LoadingScreenSceneHandler.Unload();
     }
-
-    //async public void CreateLobbyOld()
-    //{
-    //    _manager.SceneHandler.Load();
-    //    string lobbyName = "new lobby";
-    //    int maxPlayers = 4;
-    //    CreateLobbyOptions options = new();
-    //    options.IsPrivate = true;
-    //    options.Player = new Player(
-    //        id: AuthenticationService.Instance.PlayerId,
-    //        data: new Dictionary<string, PlayerDataObject>()
-    //        {
-    //            {
-    //                "ExampleMemberPlayerData", new PlayerDataObject(
-    //                    visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
-    //                    value: "ExampleMemberPlayerData")
-    //            }
-    //        });
-
-    //    GameLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
-    //    _manager.SceneHandler.Unload();
-    //    _manager.InvokeOnLobbyCreated();
-    //    Debug.Log(GameLobby.LobbyCode);
-    //}
-
-    //async public void JoinLobbyOld(string code)
-    //{
-    //    _manager.SceneHandler.Load();
-
-    //    try
-    //    {
-    //        GameLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
-    //        _manager.InvokeOnLobbyCreated();
-    //    }
-    //    catch (LobbyServiceException e)
-    //    {
-    //        Debug.Log(e);
-    //    }
-
-    //    _manager.SceneHandler.Unload();
-    //}
 }

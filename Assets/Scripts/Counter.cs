@@ -24,7 +24,7 @@ public class Counter : MonoBehaviour
         EffectSO.OnInflict += EffectSO_OnInflict;
 
         if (_isOwner) return;
-        PlayerNetwork.OnCounterAdd += PlayerNetwork_OnCounterAdd;
+        PlayerNetwork.OnCurrencyUpdate += PlayerNetwork_OnCurrencyUpdate;
         PlayerNetwork.OnGetFriendStats += PlayerNetwork_OnGetFriendStats;
     }
 
@@ -43,7 +43,7 @@ public class Counter : MonoBehaviour
         EffectSO.OnInflict -= EffectSO_OnInflict;
 
         if (_isOwner) return;
-        PlayerNetwork.OnCounterAdd -= PlayerNetwork_OnCounterAdd;
+        PlayerNetwork.OnCurrencyUpdate -= PlayerNetwork_OnCurrencyUpdate;
         PlayerNetwork.OnGetFriendStats -= PlayerNetwork_OnGetFriendStats;
     }
 
@@ -67,7 +67,7 @@ public class Counter : MonoBehaviour
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)
     {
-        if (_currency == Currency.Sips || victory || _shieldIsUp) return;
+        if (!_isOwner || _currency != Currency.SipsToDrink || victory || _shieldIsUp) return;
 
         if (_challengeShieldIsUp)
         {
@@ -78,10 +78,12 @@ public class Counter : MonoBehaviour
         AddCounter(5);
     }
 
-    private void PlayerNetwork_OnCounterAdd(Currency currency, int amount)
+    private void PlayerNetwork_OnCurrencyUpdate(Currency currency, int amount)
     {
         if (currency != _currency) return;
-        AddCounter(amount);
+        //AddCounter(amount);
+        _counter = amount;
+        _counterNumber.text = _counter.ToString();
     }
 
     private void PlayerNetwork_OnGetFriendStats(int sips, int shots)

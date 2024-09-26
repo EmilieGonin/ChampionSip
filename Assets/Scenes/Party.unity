@@ -4113,6 +4113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ownerName: {fileID: 567683567}
   _friendName: {fileID: 1251086509}
+  _friendGolds: {fileID: 1953342505}
 --- !u!1 &903817882
 GameObject:
   m_ObjectHideFlags: 0
