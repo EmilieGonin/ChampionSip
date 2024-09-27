@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
 
     // Lobby
     public bool IsHost => Mod<ModLobby>().IsHost;
+    public Dictionary<ulong, PlayerData> Players => Mod<ModLobby>().Players;
+    public ulong PlayerId => Mod<ModLobby>().PlayerId;
+    public void SetPlayerId(ulong id) => Mod<ModLobby>().SetPlayerId(id);
 
     // Economy
     public Dictionary<Currency, int> Currencies => Mod<ModEconomy>().Currencies;

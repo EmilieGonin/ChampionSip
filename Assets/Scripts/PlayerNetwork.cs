@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,9 +8,9 @@ public class PlayerNetwork : NetworkBehaviour
 {
     public static event Action<string> OnChallengeSelect;
     public static event Action<bool> OnChallengeCompleted; // true = victory
-    public static event Action<Currency, int> OnCurrencyUpdate;
-    public static event Action<string> OnGetFriendName;
-    public static event Action<int, int> OnGetFriendStats;
+    public static event Action<ulong, Currency, int> OnCurrencyUpdate;
+    public static event Action<ulong, string, int, int> OnNewPlayer;
+    public static event Action<ulong> OnPlayerDisconnect;
 
     public override void OnNetworkSpawn()
     {
@@ -25,11 +26,15 @@ public class PlayerNetwork : NetworkBehaviour
 
         ModEconomy.OnCurrencyUpdate += ModEconomy_OnCurrencyUpdate;
 
-        if (!IsOwner || IsHost) return;
+        if (!IsOwner) return;
+        GameManager.Instance.SetPlayerId(OwnerClientId);
+
+        if (IsHost) return;
         SendPlayerDatasServerRpc(
             GameManager.Instance.PlayerName,
             GameManager.Instance.Currencies[Currency.Sips],
-            GameManager.Instance.Currencies[Currency.Shots]);
+            GameManager.Instance.Currencies[Currency.Shots],
+            new ServerRpcParams());
     }
 
     public override void OnNetworkDespawn()
@@ -49,6 +54,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner || OwnerClientId == id) return;
         GameManager.Instance.ShowError("Un joueur s'est déconnecté !");
+        OnPlayerDisconnect?.Invoke(id);
     }
 
     private void Singleton_OnClientConnectedCallback(ulong id)
@@ -58,13 +64,14 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsHost && OwnerClientId != id) SendPlayerDatasClientRpc(
             GameManager.Instance.PlayerName,
             GameManager.Instance.Currencies[Currency.Sips],
-            GameManager.Instance.Currencies[Currency.Shots]);
+            GameManager.Instance.Currencies[Currency.Shots],
+            OwnerClientId,
+            id);
 
-        if (OwnerClientId == id)
+        if (OwnerClientId != id)
         {
-            //Reconnect
+            GameManager.Instance.ShowNotification("Un joueur s'est connecté !");
         }
-        else GameManager.Instance.ShowNotification("Un joueur s'est connecté !");
     }
 
     private void EffectSO_OnActivate(EffectSO effect)
@@ -97,18 +104,17 @@ public class PlayerNetwork : NetworkBehaviour
     private void ModEconomy_OnCurrencyUpdate(Currency currency, int amount)
     {
         if (!IsOwner) return;
-        if (IsHost) UpdateCurrencyClientRpc(currency, amount);
-        else UpdateCurrencyServerRpc(currency, amount);
+        if (IsHost) UpdateCurrencyClientRpc(OwnerClientId, currency, amount);
+        else UpdateCurrencyServerRpc(OwnerClientId, currency, amount);
     }
 
     [ServerRpc] private void SelectChallengeServerRpc(string challenge) => OnChallengeSelect?.Invoke(challenge);
     [ServerRpc] private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
     [ServerRpc] private void InflictEffectServerRpc(string effect) => GameManager.Instance.GetEffectByName(effect).Inflict();
-    [ServerRpc] private void UpdateCurrencyServerRpc(Currency currency, int amount) => OnCurrencyUpdate?.Invoke(currency, amount);
-    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots)
+    [ServerRpc] private void UpdateCurrencyServerRpc(ulong id, Currency currency, int amount) => OnCurrencyUpdate?.Invoke(id, currency, amount);
+    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots, ServerRpcParams serverRpcParams)
     {
-        OnGetFriendName?.Invoke(name);
-        OnGetFriendStats?.Invoke(sips, shots);
+        OnNewPlayer?.Invoke(serverRpcParams.Receive.SenderClientId, name, sips, shots);
     }
 
     [ClientRpc]
@@ -133,18 +139,18 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void UpdateCurrencyClientRpc(Currency currency, int amount)
+    private void UpdateCurrencyClientRpc(ulong id, Currency currency, int amount)
     {
         if (IsHost) return;
-        OnCurrencyUpdate?.Invoke(currency, amount);
+        OnCurrencyUpdate?.Invoke(id,currency, amount);
     }
 
     [ClientRpc]
-    private void SendPlayerDatasClientRpc(string name, int sips, int shots)
+    private void SendPlayerDatasClientRpc(string name, int sips, int shots, ulong id, ulong clientToSendId)
     {
         if (IsHost) return;
-        OnGetFriendName?.Invoke(name);
-        OnGetFriendStats?.Invoke(sips, shots);
+        //if (IsHost || OwnerClientId != clientToSendId) return;
+        OnNewPlayer?.Invoke(id, name, sips, shots);
     }
 
     private void OnApplicationPause(bool pauseStatus)
@@ -155,23 +161,6 @@ public class PlayerNetwork : NetworkBehaviour
         {
             GameManager.Instance.ShowNotification("Reconnecting");
             GameManager.Instance.Mod<ModLobby>().Reconnect(IsHost);
-        }
-    }
-
-    private void Update()
-    {
-        // Appuyer sur la touche "P" pour simuler la mise en veille
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("Simulating app going into background...");
-            OnApplicationPause(true);
-        }
-
-        // Appuyer sur la touche "R" pour simuler la reprise de l'application
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("Simulating app resuming...");
-            OnApplicationPause(false);
         }
     }
 }

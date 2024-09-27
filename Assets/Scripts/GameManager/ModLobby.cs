@@ -4,18 +4,39 @@ using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
+public struct PlayerData
+{
+    public string Name;
+    public Dictionary<Currency, int> Currencies;
+}
 
 public class ModLobby : Module
 {
     public string LobbyCode { get; private set; }
     public bool IsHost { get; private set; }
+    public Dictionary<ulong, PlayerData> Players { get; private set; } = new();
+    public ulong PlayerId {  get; private set; }
+
+    private void Awake()
+    {
+        PlayerNetwork.OnNewPlayer += PlayerNetwork_OnNewPlayer;
+        PlayerNetwork.OnPlayerDisconnect += PlayerNetwork_OnPlayerDisconnect;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerNetwork.OnNewPlayer -= PlayerNetwork_OnNewPlayer;
+        PlayerNetwork.OnPlayerDisconnect -= PlayerNetwork_OnPlayerDisconnect;
+    }
 
     public async Task<bool> CreateLobby()
     {
         _manager.LoadingScreenSceneHandler.Load();
         try
         {
-            Allocation a = await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation a = await RelayService.Instance.CreateAllocationAsync(20);
             LobbyCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
             Debug.Log(LobbyCode);
@@ -79,5 +100,29 @@ public class ModLobby : Module
         }
 
         _manager.LoadingScreenSceneHandler.Unload();
+    }
+
+    private void PlayerNetwork_OnNewPlayer(ulong id, string name, int sips, int shots)
+    {
+        Debug.Log("on new player");
+        Players[id] = new()
+        {
+            Name = name,
+            Currencies = new()
+            {
+                { Currency.Sips, sips },
+                { Currency.Shots, shots }
+            }
+        };
+    }
+
+    private void PlayerNetwork_OnPlayerDisconnect(ulong id)
+    {
+        Players.Remove(id);
+    }
+
+    public void SetPlayerId(ulong id)
+    {
+        PlayerId = id;
     }
 }

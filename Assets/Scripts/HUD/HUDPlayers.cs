@@ -1,36 +1,40 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HUDPlayers : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _ownerName;
-    [SerializeField] private TMP_Text _friendName;
-    [SerializeField] private TMP_Text _friendGolds;
+    [SerializeField] private GameObject _joueurPrefab;
+    [SerializeField] private GameObject _joueurSpacePrefab;
+
+    private Dictionary<ulong, GameObject> _players = new();
+    private Dictionary<ulong, GameObject> _playersSpaces = new();
 
     private void Awake()
     {
-        PlayerNetwork.OnGetFriendName += PlayerNetwork_OnGetFriendName;
-        PlayerNetwork.OnCurrencyUpdate += PlayerNetwork_OnCurrencyUpdate;
+        PlayerNetwork.OnNewPlayer += PlayerNetwork_OnNewPlayer;
+        PlayerNetwork.OnPlayerDisconnect += PlayerNetwork_OnPlayerDisconnect;
     }
 
     private void OnDestroy()
     {
-        PlayerNetwork.OnGetFriendName -= PlayerNetwork_OnGetFriendName;
+        PlayerNetwork.OnNewPlayer -= PlayerNetwork_OnNewPlayer;
+        PlayerNetwork.OnPlayerDisconnect -= PlayerNetwork_OnPlayerDisconnect;
+    }
+    private void PlayerNetwork_OnNewPlayer(ulong id, string name, int sips, int shots)
+    {
+        GameObject go = Instantiate(_joueurPrefab, transform);
+        _players[id] = go;
+        go.GetComponent<HUDPlayer>().Init(id);
+
+        go = Instantiate(_joueurSpacePrefab, transform);
+        _playersSpaces[id] = go;
     }
 
-    private void Start()
+    private void PlayerNetwork_OnPlayerDisconnect(ulong id)
     {
-        _ownerName.text = GameManager.Instance.PlayerName;
-    }
-
-    private void PlayerNetwork_OnGetFriendName(string name)
-    {
-        _friendName.text = name;
-    }
-
-    private void PlayerNetwork_OnCurrencyUpdate(Currency currency, int amount)
-    {
-        if (currency != Currency.Golds) return;
-        _friendGolds.text = amount.ToString();
+        Destroy(_players[id]);
+        Destroy(_playersSpaces[id]);
+        _players.Remove(id);
+        _playersSpaces.Remove(id);
     }
 }
