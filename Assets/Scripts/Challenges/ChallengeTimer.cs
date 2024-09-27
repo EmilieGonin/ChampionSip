@@ -21,8 +21,9 @@ public class ChallengeTimer : Timer
     private void PlayerNetwork_OnChallengeSelect(string obj)
     {
         if (_timerCoroutine != null) StopCoroutine(_timerCoroutine);
-        _timerButton.interactable = true;
-        _timerIcon.color = Color.white;
+        _timerButton.interactable = false;
+        _timerIcon.color = _timerButton.colors.disabledColor;
+        //_timerIcon.color = Color.white;
     }
 
     public void StartTimer(bool victory)

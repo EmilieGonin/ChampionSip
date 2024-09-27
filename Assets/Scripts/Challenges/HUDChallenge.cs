@@ -1,11 +1,9 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HUDChallenge : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private Button _button;
     [SerializeField] private TMP_Text _challenge;
 
     private void Awake()
@@ -23,13 +21,11 @@ public class HUDChallenge : MonoBehaviour
     private void PlayerNetwork_OnChallengeSelect(string challenge)
     {
         _canvasGroup.alpha = 1;
-        _button.interactable = true;
         _challenge.text = challenge;
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)
     {
         _canvasGroup.alpha = 0;
-        _button.interactable = false;
     }
 }

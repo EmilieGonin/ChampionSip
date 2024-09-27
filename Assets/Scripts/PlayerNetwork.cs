@@ -17,7 +17,7 @@ public class PlayerNetwork : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
 
         HUDChallengeButton.OnChallengeSelect += HUDChallengeButton_OnChallengeSelect;
-        HUDChallengeButton.OnChallengeCompleted += HUDChallengeButton_OnChallengeCompleted;
+        HUDVictoryButton.OnChallengeCompleted += HUDVictoryButton_OnChallengeCompleted;
         EffectSO.OnActivate += EffectSO_OnActivate;
 
         NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
@@ -36,7 +36,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         HUDChallengeButton.OnChallengeSelect -= HUDChallengeButton_OnChallengeSelect;
-        HUDChallengeButton.OnChallengeCompleted -= HUDChallengeButton_OnChallengeCompleted;
+        HUDVictoryButton.OnChallengeCompleted -= HUDVictoryButton_OnChallengeCompleted;
         EffectSO.OnActivate -= EffectSO_OnActivate;
 
         NetworkManager.Singleton.OnClientConnectedCallback -= Singleton_OnClientConnectedCallback;
@@ -86,7 +86,7 @@ public class PlayerNetwork : NetworkBehaviour
         OnChallengeSelect?.Invoke(challenge);
     }
 
-    private void HUDChallengeButton_OnChallengeCompleted()
+    private void HUDVictoryButton_OnChallengeCompleted()
     {
         if (!IsOwner) return;
         if (IsHost) CompleteChallengeClientRpc();

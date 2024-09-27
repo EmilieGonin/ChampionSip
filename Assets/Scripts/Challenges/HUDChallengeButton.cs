@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class HUDChallengeButton : MonoBehaviour
 {
     public static event Action<string> OnChallengeSelect;
-    public static event Action OnChallengeCompleted;
+
+    [SerializeField] private Button _timerButton;
 
     [Header("Button Appearence")]
     [SerializeField] private Image _buttonIcon;
@@ -37,14 +38,18 @@ public class HUDChallengeButton : MonoBehaviour
     private void PlayerNetwork_OnChallengeSelect(string challenge)
     {
         _isAvailable = false;
-        _buttonIcon.sprite = _buttonCompleteIcon;
-        _timerImage.color = _timerColor;
-        _timerText.text = "Victoire !";
+        _timerImage.enabled = false;
+        _timerText.alpha = 0;
+        //_buttonIcon.sprite = _buttonCompleteIcon;
+        //_timerImage.color = _timerColor;
+        //_timerText.text = "Victoire !";
     }
 
     private void PlayerNetwork_OnChallengeCompleted(bool victory)
     {
         _isAvailable = true;
+        _timerImage.enabled = true;
+        _timerText.alpha = 1;
         _buttonIcon.sprite = _buttonDefaultIcon;
         _timerImage.color = Color.white;
     }
@@ -57,7 +62,6 @@ public class HUDChallengeButton : MonoBehaviour
     public void OnClick()
     {
         if (_isAvailable) CreateNewChallenge();
-        else OnChallengeCompleted?.Invoke();
     }
 
     private void CreateNewChallenge()
