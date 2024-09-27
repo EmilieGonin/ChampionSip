@@ -51,6 +51,9 @@ public class GameManager : MonoBehaviour
     public EffectSO GetEffectByName(string name) => Mod<ModEffects>().GetEffectByName(name);
     public bool HasEffect<T>() where T : EffectSO => Mod<ModEffects>().HasEffect<T>();
 
+    // Settings
+    public Dictionary<Setting, bool> Settings => Mod<ModSettings>().Settings;
+
     public string ErrorMessage { get; private set; }
     public string NotificationMessage { get; private set; }
 

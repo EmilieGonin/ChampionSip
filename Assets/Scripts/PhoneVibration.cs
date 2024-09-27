@@ -29,6 +29,7 @@ public class PhoneVibration : MonoBehaviour
 
     private void Vibrate()
     {
+        if (!GameManager.Instance.Settings[Setting.Vibration]) return;
 #if UNITY_ANDROID || UNITY_IOS
         Handheld.Vibrate();
 #endif

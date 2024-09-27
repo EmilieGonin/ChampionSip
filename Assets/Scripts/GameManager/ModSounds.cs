@@ -33,7 +33,11 @@ public class ModSounds : Module
         Counter.OnCounterRemove -= PlaySipButton;
     }
 
-    public void PlaySound(SoundType type) => _source.PlayOneShot(_sounds[type]);
+    public void PlaySound(SoundType type)
+    {
+        if (!_manager.Settings[Setting.Sounds]) return;
+        _source.PlayOneShot(_sounds[type]);
+    }
 
     private void PlayButtonSound() => PlaySound(SoundType.Click);
     private void PlayChallengeSound(bool win) => PlaySound(win ? SoundType.ChallengeWon : SoundType.ChallengeLost);
