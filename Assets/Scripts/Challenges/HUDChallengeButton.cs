@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,7 +67,6 @@ public class HUDChallengeButton : MonoBehaviour
 
     private void CreateNewChallenge()
     {
-        int rand = UnityEngine.Random.Range(0, GameManager.Instance.Challenges.Count);
-        OnChallengeSelect?.Invoke(GameManager.Instance.Challenges[rand]);
+        OnChallengeSelect?.Invoke(GameManager.Instance.SelectNewChallenge());
     }
 }

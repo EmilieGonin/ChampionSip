@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,11 @@ public class GameManager : MonoBehaviour
     public Dictionary<Category, Sprite> RulesCategories { get; private set; } = new();
 
     // Challenges
-    public List<string> Challenges { get; private set; } = new();
+    public Dictionary<string, ChallengeCategory> Challenges => Mod<ModChallenges>().Challenges;
+    public Dictionary<ChallengeCategory, bool> ChallengeCategories => Mod<ModChallenges>().ChallengeCategories;
+    public SerializedDictionary<ChallengeCategory, string> ChallengeCategoriesTitles => Mod<ModChallenges>().ChallengeCategoriesTitles;
+    public string SelectNewChallenge() => Mod<ModChallenges>().SelectNewChallenge();
+    public void UpdateActiveChallenges(ChallengeCategory category, bool isActive) => Mod<ModChallenges>().UpdateActiveChallenges(category, isActive);
 
     // Account
     public string PlayerName => Mod<ModAccount>().PlayerName;
@@ -68,8 +73,6 @@ public class GameManager : MonoBehaviour
         {
             RulesPrefabs.Add(rule.Key, 0);
         }
-
-        Challenges = Resources.Load<ChallengesSO>("SO/Challenges").Challenges;
     }
 
     public T Mod<T>() where T : Module => _modules.OfType<T>().First();

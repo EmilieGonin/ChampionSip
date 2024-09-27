@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 5143479761191912569}
   - component: {fileID: 2148599033594954946}
   - component: {fileID: 4707769671740125229}
+  - component: {fileID: 6883645484029300368}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -61,6 +62,7 @@ MonoBehaviour:
   - {fileID: 5942694669583004560}
   - {fileID: 5143479761191912569}
   - {fileID: 2148599033594954946}
+  - {fileID: 6883645484029300368}
   LoadingScreenSceneHandler: {fileID: 3760311243804793067}
   ErrorSceneHandler: {fileID: 969898385892244232}
   NotificationSceneHandler: {fileID: 443900660787103805}
@@ -302,3 +304,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6883645484029300368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312198945610911189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb277cda429e9e94587cc364b79a65c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _challengeCategoriesTitles:
+    _serializedList:
+    - Key: 0
+      Value: "Jeux vid\xE9o"
+    - Key: 1
+      Value: "Jeux de soci\xE9t\xE9"
+    - Key: 2
+      Value: Sport
+    - Key: 3
+      Value: Social
+    - Key: 4
+      Value: "M\xE9moire"

@@ -13,14 +13,26 @@ MonoBehaviour:
   m_Name: Challenges
   m_EditorClassIdentifier: 
   Challenges:
-  - Ne pas mourir
-  - Faire un kill
-  - Obtenir un objet rare
-  - Tenir le plus longtemps en planche
-  - Gagner une manche de Uno
-  - Gagner une manche de pierre-feuille-ciseaux
-  - "R\xE9ussir un bottle flip en premier"
-  - Gagner une manche de Je n'ai jamais
-  - Gagner une manche de Dans ma valise
-  - Tenir sur une jambe le plus longtemps
-  - Ne pas rigoler
+    _serializedList:
+    - Key: Ne pas mourir
+      Value: 0
+    - Key: Faire un kill
+      Value: 0
+    - Key: Obtenir un objet rare
+      Value: 0
+    - Key: Gagner une manche de Uno
+      Value: 1
+    - Key: Gagner une manche de pierre-feuille-ciseaux
+      Value: 1
+    - Key: Tenir le plus longtemps en planche
+      Value: 2
+    - Key: "R\xE9ussir un bottle flip en premier"
+      Value: 2
+    - Key: Tenir sur une jambe le plus longtemps
+      Value: 2
+    - Key: Gagner une manche de Je n'ai jamais
+      Value: 4
+    - Key: Gagner une manche de Dans ma valise
+      Value: 4
+    - Key: Ne pas rigoler
+      Value: 3
