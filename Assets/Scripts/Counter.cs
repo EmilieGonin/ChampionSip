@@ -54,6 +54,7 @@ public class Counter : MonoBehaviour
 
     private void EffectSO_OnActivate(EffectSO effect)
     {
+        if (!_isOwner) return;
         if (effect is SipTransfer && _currency == Currency.SipsToDrink) RemoveCounter(5);
         else if (effect is ChallengeShield) _challengeShieldIsUp = true;
         else if (effect is Shield) _shieldIsUp = true;
