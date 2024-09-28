@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -34,7 +32,7 @@ public class PlayerNetwork : NetworkBehaviour
             GameManager.Instance.PlayerName,
             GameManager.Instance.Currencies[Currency.Sips],
             GameManager.Instance.Currencies[Currency.Shots],
-            new ServerRpcParams());
+            OwnerClientId);
     }
 
     public override void OnNetworkDespawn()
@@ -61,16 +59,27 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (IsHost && OwnerClientId != id) SendPlayerDatasClientRpc(
-            GameManager.Instance.PlayerName,
-            GameManager.Instance.Currencies[Currency.Sips],
-            GameManager.Instance.Currencies[Currency.Shots],
-            OwnerClientId,
-            id);
-
         if (OwnerClientId != id)
         {
             GameManager.Instance.ShowNotification("Un joueur s'est connecté !");
+        }
+
+        if (IsHost && OwnerClientId != id)
+        {
+            SendPlayerDatasClientRpc(
+            GameManager.Instance.PlayerName,
+            GameManager.Instance.Currencies[Currency.Sips],
+            GameManager.Instance.Currencies[Currency.Shots],
+            OwnerClientId);
+
+            foreach (var player in GameManager.Instance.Players)
+            {
+                SendPlayerDatasClientRpc(
+                    player.Value.Name,
+                    player.Value.Currencies[Currency.Sips],
+                    player.Value.Currencies[Currency.Shots],
+                    player.Key);
+            }
         }
     }
 
@@ -108,15 +117,30 @@ public class PlayerNetwork : NetworkBehaviour
         else UpdateCurrencyServerRpc(OwnerClientId, currency, amount);
     }
 
-    [ServerRpc] private void SelectChallengeServerRpc(string challenge) => OnChallengeSelect?.Invoke(challenge);
-    [ServerRpc] private void CompleteChallengeServerRpc() => OnChallengeCompleted?.Invoke(false);
-    [ServerRpc] private void InflictEffectServerRpc(string effect) => GameManager.Instance.GetEffectByName(effect).Inflict();
-    [ServerRpc] private void UpdateCurrencyServerRpc(ulong id, Currency currency, int amount) => OnCurrencyUpdate?.Invoke(id, currency, amount);
-    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots, ServerRpcParams serverRpcParams)
+    // ServerRpc : Receive only by host - Used by clients
+    [ServerRpc] private void SelectChallengeServerRpc(string challenge)
     {
-        OnNewPlayer?.Invoke(serverRpcParams.Receive.SenderClientId, name, sips, shots);
+        OnChallengeSelect?.Invoke(challenge);
+        SelectChallengeClientRpc(challenge);
+    }
+    [ServerRpc] private void CompleteChallengeServerRpc()
+    {
+        OnChallengeCompleted?.Invoke(false);
+        //CompleteChallengeClientRpc();
+    }
+    [ServerRpc] private void InflictEffectServerRpc(string effect) => GameManager.Instance.GetEffectByName(effect).Inflict();
+    [ServerRpc] private void UpdateCurrencyServerRpc(ulong id, Currency currency, int amount)
+    {
+        OnCurrencyUpdate?.Invoke(id, currency, amount);
+        UpdateCurrencyClientRpc(id, currency, amount);
+    }
+    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots, ulong id)
+    {
+        Debug.Log($"[{OwnerClientId}] Server RPC - Receive datas from {name} ({id})");
+        OnNewPlayer?.Invoke(id, name, sips, shots);
     }
 
+    // ClientRpc : Receive by everyone - Used by host
     [ClientRpc]
     private void SelectChallengeClientRpc(string challenge)
     {
@@ -141,15 +165,16 @@ public class PlayerNetwork : NetworkBehaviour
     [ClientRpc]
     private void UpdateCurrencyClientRpc(ulong id, Currency currency, int amount)
     {
-        if (IsHost) return;
+        if (IsHost || GameManager.Instance.PlayerId == id) return;
         OnCurrencyUpdate?.Invoke(id,currency, amount);
     }
 
     [ClientRpc]
-    private void SendPlayerDatasClientRpc(string name, int sips, int shots, ulong id, ulong clientToSendId)
+    private void SendPlayerDatasClientRpc(string name, int sips, int shots, ulong id)
     {
         if (IsHost) return;
-        //if (IsHost || OwnerClientId != clientToSendId) return;
+        Debug.Log($"[{OwnerClientId}] Client RPC - Receive datas of {name} ({id}) ");
+        //if (IsHost && OwnerClientId == id) return;
         OnNewPlayer?.Invoke(id, name, sips, shots);
     }
 

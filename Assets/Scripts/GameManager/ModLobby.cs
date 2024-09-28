@@ -5,6 +5,7 @@ using Unity.Services.Relay;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
 public struct PlayerData
 {
@@ -14,6 +15,8 @@ public struct PlayerData
 
 public class ModLobby : Module
 {
+    public static event Action<ulong, string, int, int> OnNewPlayer;
+
     public string LobbyCode { get; private set; }
     public bool IsHost { get; private set; }
     public Dictionary<ulong, PlayerData> Players { get; private set; } = new();
@@ -104,7 +107,9 @@ public class ModLobby : Module
 
     private void PlayerNetwork_OnNewPlayer(ulong id, string name, int sips, int shots)
     {
-        Debug.Log("on new player");
+        if (Players.ContainsKey(id) || PlayerId == id) return;
+        Debug.Log($"Added player {name} ({id})");
+
         Players[id] = new()
         {
             Name = name,
@@ -114,6 +119,8 @@ public class ModLobby : Module
                 { Currency.Shots, shots }
             }
         };
+
+        OnNewPlayer?.Invoke(id, name, sips, shots);
     }
 
     private void PlayerNetwork_OnPlayerDisconnect(ulong id)

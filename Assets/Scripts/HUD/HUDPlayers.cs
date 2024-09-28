@@ -11,16 +11,16 @@ public class HUDPlayers : MonoBehaviour
 
     private void Awake()
     {
-        PlayerNetwork.OnNewPlayer += PlayerNetwork_OnNewPlayer;
+        ModLobby.OnNewPlayer += ModLobby_OnNewPlayer;
         PlayerNetwork.OnPlayerDisconnect += PlayerNetwork_OnPlayerDisconnect;
     }
 
     private void OnDestroy()
     {
-        PlayerNetwork.OnNewPlayer -= PlayerNetwork_OnNewPlayer;
+        ModLobby.OnNewPlayer -= ModLobby_OnNewPlayer;
         PlayerNetwork.OnPlayerDisconnect -= PlayerNetwork_OnPlayerDisconnect;
     }
-    private void PlayerNetwork_OnNewPlayer(ulong id, string name, int sips, int shots)
+    private void ModLobby_OnNewPlayer(ulong id, string name, int sips, int shots)
     {
         GameObject go = Instantiate(_joueurPrefab, transform);
         _players[id] = go;
