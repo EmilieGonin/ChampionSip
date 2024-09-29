@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3760311243804793067}
   - component: {fileID: 969898385892244232}
   - component: {fileID: 443900660787103805}
+  - component: {fileID: 1745606224336790367}
   - component: {fileID: 3238628579868889249}
   - component: {fileID: 8829253760557844595}
   - component: {fileID: 5247240597375568691}
@@ -125,6 +126,25 @@ MonoBehaviour:
   _sceneToUnload: Popup_Notifications
   _popupTimeout: 1
   _timeoutDuration: 3
+--- !u!114 &1745606224336790367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312198945610911189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c41c0127e69a714eabdfb61f163d392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToLoad: Popup_SelectClient
+  _loadAsAdditive: 1
+  _instantLoad: 0
+  _unloadCurrentScene: 1
+  _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 3
 --- !u!114 &3238628579868889249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33391140734fa8d429934863d57ee939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sceneHandler: {fileID: 1745606224336790367}
 --- !u!114 &2148599033594954946
 MonoBehaviour:
   m_ObjectHideFlags: 0

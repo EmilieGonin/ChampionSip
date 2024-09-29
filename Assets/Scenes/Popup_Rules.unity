@@ -155,10 +155,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 320374012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 115, y: -75}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &95317376
 MonoBehaviour:
@@ -233,10 +233,10 @@ RectTransform:
   - {fileID: 320374012}
   m_Father: {fileID: 1284700714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 610, y: -75}
+  m_SizeDelta: {x: 1220, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100385362
 MonoBehaviour:
@@ -320,7 +320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &170888340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,10 +437,10 @@ RectTransform:
   - {fileID: 1383267007}
   m_Father: {fileID: 100385361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 915, y: -75}
+  m_SizeDelta: {x: 610, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320374013
 MonoBehaviour:
@@ -536,10 +536,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1385409446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 115, y: -75}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &606140356
 MonoBehaviour:
@@ -897,6 +897,8 @@ MonoBehaviour:
   _instantLoad: 0
   _unloadCurrentScene: 1
   _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 3
 --- !u!1 &927642511
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,10 +931,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1284700714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 610, y: -225}
+  m_SizeDelta: {x: 1220, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &927642513
 MonoBehaviour:
@@ -1300,10 +1302,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 320374012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 410, y: -75}
+  m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1383267008
 MonoBehaviour:
@@ -1435,10 +1437,10 @@ RectTransform:
   - {fileID: 1631733343}
   m_Father: {fileID: 100385361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 305, y: -75}
+  m_SizeDelta: {x: 610, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1385409447
 MonoBehaviour:
@@ -1739,10 +1741,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1385409446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 410, y: -75}
+  m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1631733344
 MonoBehaviour:
@@ -2202,6 +2204,8 @@ MonoBehaviour:
   _instantLoad: 0
   _unloadCurrentScene: 1
   _sceneToUnload: 
+  _popupTimeout: 0
+  _timeoutDuration: 3
 --- !u!1 &2142913605
 GameObject:
   m_ObjectHideFlags: 0

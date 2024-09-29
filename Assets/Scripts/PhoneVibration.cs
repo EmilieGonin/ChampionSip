@@ -16,7 +16,7 @@ public class PhoneVibration : MonoBehaviour
         PlayerNetwork.OnChallengeSelect -= PlayerNetwork_OnChallengeSelect;
     }
 
-    private void EffectSO_OnActivate(EffectSO obj) => VibrateShort();
+    private void EffectSO_OnActivate(EffectSO obj, ulong id) => VibrateShort();
     private void EffectSO_OnInflict(EffectSO obj) => VibrateMedium();
     private void PlayerNetwork_OnChallengeSelect(string challenge) => VibrateMedium();
 

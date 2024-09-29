@@ -52,7 +52,7 @@ public class Counter : MonoBehaviour
         PlayerNetwork.OnCurrencyUpdate -= PlayerNetwork_OnCurrencyUpdate;
     }
 
-    private void EffectSO_OnActivate(EffectSO effect)
+    private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
         if (!_isOwner) return;
         if (effect is SipTransfer && _currency == Currency.SipsToDrink) RemoveCounter(5);

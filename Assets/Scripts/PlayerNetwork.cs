@@ -83,14 +83,14 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    private void EffectSO_OnActivate(EffectSO effect)
+    private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
         if (!IsOwner) return;
 
         if (effect.IsInflicted)
         {
-            if (IsHost) InflictEffectClientRpc(effect.Name);
-            else InflictEffectServerRpc(effect.Name);
+            if (IsHost) InflictEffectClientRpc(effect.Name, id);
+            else InflictEffectServerRpc(effect.Name, id);
         }
     }
 
@@ -105,8 +105,8 @@ public class PlayerNetwork : NetworkBehaviour
     private void HUDVictoryButton_OnChallengeCompleted()
     {
         if (!IsOwner) return;
-        if (IsHost) CompleteChallengeClientRpc();
-        else CompleteChallengeServerRpc();
+        if (IsHost) CompleteChallengeClientRpc(OwnerClientId);
+        else CompleteChallengeServerRpc(OwnerClientId);
         OnChallengeCompleted?.Invoke(true);
     }
 
@@ -123,17 +123,28 @@ public class PlayerNetwork : NetworkBehaviour
         OnChallengeSelect?.Invoke(challenge);
         SelectChallengeClientRpc(challenge);
     }
-    [ServerRpc] private void CompleteChallengeServerRpc()
+
+    [ServerRpc] private void CompleteChallengeServerRpc(ulong clientId)
     {
         OnChallengeCompleted?.Invoke(false);
-        //CompleteChallengeClientRpc();
+        CompleteChallengeClientRpc(clientId);
     }
-    [ServerRpc] private void InflictEffectServerRpc(string effect) => GameManager.Instance.GetEffectByName(effect).Inflict();
+
+    [ServerRpc] private void InflictEffectServerRpc(string effect, ulong id)
+    {
+        if (GameManager.Instance.PlayerId == id)
+        {
+            GameManager.Instance.GetEffectByName(effect).Inflict();
+        }
+        else InflictEffectClientRpc(effect, id);
+    }
+
     [ServerRpc] private void UpdateCurrencyServerRpc(ulong id, Currency currency, int amount)
     {
         OnCurrencyUpdate?.Invoke(id, currency, amount);
         UpdateCurrencyClientRpc(id, currency, amount);
     }
+
     [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots, ulong id)
     {
         Debug.Log($"[{OwnerClientId}] Server RPC - Receive datas from {name} ({id})");
@@ -149,16 +160,16 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void CompleteChallengeClientRpc()
+    private void CompleteChallengeClientRpc(ulong clientId)
     {
-        if (IsHost) return;
+        if (IsHost || GameManager.Instance.PlayerId == clientId) return;
         OnChallengeCompleted?.Invoke(false);
     }
 
     [ClientRpc]
-    private void InflictEffectClientRpc(string effect)
+    private void InflictEffectClientRpc(string effect, ulong id)
     {
-        if (IsHost) return;
+        if (IsHost || GameManager.Instance.PlayerId != id) return;
         GameManager.Instance.GetEffectByName(effect).Inflict();
     }
 

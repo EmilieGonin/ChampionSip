@@ -22,7 +22,7 @@ public class HUDSipEffects : Timer
         EffectSO.OnInflict -= EffectSO_OnInflict;
     }
 
-    private void EffectSO_OnActivate(EffectSO effect)
+    private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
         if (effect is Shield)
         {

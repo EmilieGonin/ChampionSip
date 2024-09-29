@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,7 +54,7 @@ public class HUDChallengeButton : MonoBehaviour
         _timerImage.color = Color.white;
     }
 
-    private void EffectSO_OnActivate(EffectSO effect)
+    private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
         if (effect is RandomChallengeRelaunch) CreateNewChallenge();
     }

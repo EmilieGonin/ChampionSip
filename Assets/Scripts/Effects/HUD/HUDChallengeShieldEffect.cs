@@ -21,7 +21,7 @@ public class HUDChallengeShieldEffect : MonoBehaviour
         if (!victory) Hide();
     }
 
-    private void Show(EffectSO effect)
+    private void Show(EffectSO effect, ulong id)
     {
         if (effect is ChallengeShield) _canvasGroup.alpha = 1;
     }

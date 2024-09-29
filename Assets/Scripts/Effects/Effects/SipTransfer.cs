@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SipTransfer", menuName = "Game/Effects/SipTransfer")]
 public class SipTransfer : EffectSO
 {
-    public override void Activate()
+    public override void Activate(ulong id)
     {
         if (GameManager.Instance.Currencies[Currency.SipsToDrink] < 5)
         {
@@ -11,6 +11,6 @@ public class SipTransfer : EffectSO
             return;
         }
 
-        base.Activate();
+        base.Activate(id);
     }
 }

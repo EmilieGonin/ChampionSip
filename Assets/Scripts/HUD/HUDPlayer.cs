@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class HUDPlayer : MonoBehaviour
 {
+    public static event Action<ulong> OnPlayerSelect;
+
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _golds;
     [SerializeField] private List<Counter> _counters;
@@ -33,4 +36,6 @@ public class HUDPlayer : MonoBehaviour
         if (id != _id || currency != Currency.Golds) return;
         _golds.text = amount.ToString();
     }
+
+    public void Click() => OnPlayerSelect?.Invoke(_id);
 }

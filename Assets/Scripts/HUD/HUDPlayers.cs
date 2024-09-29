@@ -4,37 +4,32 @@ using UnityEngine;
 public class HUDPlayers : MonoBehaviour
 {
     [SerializeField] private GameObject _joueurPrefab;
-    [SerializeField] private GameObject _joueurSpacePrefab;
+    [SerializeField] private RectTransform _content;
 
     private Dictionary<ulong, GameObject> _players = new();
-    private Dictionary<ulong, GameObject> _playersSpaces = new();
 
     private void Awake()
     {
-        ModLobby.OnNewPlayer += ModLobby_OnNewPlayer;
-        PlayerNetwork.OnPlayerDisconnect += PlayerNetwork_OnPlayerDisconnect;
+        ModLobby.OnNewPlayer += AddPlayer;
+        PlayerNetwork.OnPlayerDisconnect += RemovePlayer;
     }
 
     private void OnDestroy()
     {
-        ModLobby.OnNewPlayer -= ModLobby_OnNewPlayer;
-        PlayerNetwork.OnPlayerDisconnect -= PlayerNetwork_OnPlayerDisconnect;
+        ModLobby.OnNewPlayer -= AddPlayer;
+        PlayerNetwork.OnPlayerDisconnect -= RemovePlayer;
     }
-    private void ModLobby_OnNewPlayer(ulong id, string name, int sips, int shots)
+
+    protected void AddPlayer(ulong id, string name, int sips, int shots)
     {
-        GameObject go = Instantiate(_joueurPrefab, transform);
+        GameObject go = Instantiate(_joueurPrefab, _content);
         _players[id] = go;
         go.GetComponent<HUDPlayer>().Init(id);
-
-        go = Instantiate(_joueurSpacePrefab, transform);
-        _playersSpaces[id] = go;
     }
 
-    private void PlayerNetwork_OnPlayerDisconnect(ulong id)
+    private void RemovePlayer(ulong id)
     {
         Destroy(_players[id]);
-        Destroy(_playersSpaces[id]);
         _players.Remove(id);
-        _playersSpaces.Remove(id);
     }
 }
