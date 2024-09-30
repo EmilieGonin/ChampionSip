@@ -3,14 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SipTransfer", menuName = "Game/Effects/SipTransfer")]
 public class SipTransfer : EffectSO
 {
-    public override void Activate(ulong id)
+    public override bool CanBuy()
     {
-        if (GameManager.Instance.Currencies[Currency.SipsToDrink] < 5)
-        {
-            GameManager.Instance.ShowError("Pas assez de gorgées à transférer.");
-            return;
-        }
-
-        base.Activate(id);
+        if (GameManager.Instance.Currencies[Currency.SipsToDrink] < 5) return false;
+        return base.CanBuy();
     }
 }

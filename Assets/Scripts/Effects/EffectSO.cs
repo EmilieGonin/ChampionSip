@@ -17,4 +17,5 @@ public abstract class EffectSO : ScriptableObject
     public virtual void Activate(ulong id) => OnActivate?.Invoke(this, id);
     public virtual void Deactivate() => OnDeactivate?.Invoke(this);
     public virtual void Inflict() => OnInflict?.Invoke(this);
+    public virtual bool CanBuy() => Price <= GameManager.Instance.Currencies[Currency.Golds];
 }
