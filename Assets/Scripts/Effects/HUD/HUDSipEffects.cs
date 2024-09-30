@@ -9,6 +9,7 @@ public class HUDSipEffects : Timer
     [SerializeField] private CanvasGroup _canvasGroup;
 
     private EffectSO _currentEffect;
+    private ulong _playerId;
 
     private void Awake()
     {
