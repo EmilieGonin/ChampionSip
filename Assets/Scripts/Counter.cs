@@ -36,9 +36,12 @@ public class Counter : MonoBehaviour
         _playerId = GameManager.Instance.PlayerId;
     }
 
+    private void Update() => _counterNumber.text = _counter.ToString();
+
     public void SetPlayerId(ulong id)
     {
         _playerId = id;
+        _counter = GameManager.Instance.Players[id].Currencies[_currency];
     }
 
     private void OnDestroy()
@@ -89,21 +92,6 @@ public class Counter : MonoBehaviour
     {
         if (id != _playerId || currency != _currency) return;
         _counter = amount;
-        _counterNumber.text = _counter.ToString();
-    }
-
-    private void PlayerNetwork_OnGetFriendStats(int sips, int shots)
-    {
-        if (_currency == Currency.Sips)
-        {
-            _counter = sips;
-            _counterNumber.text = _counter.ToString();
-        }
-        else if (_currency == Currency.Shots)
-        {
-            _counter = shots;
-            _counterNumber.text = _counter.ToString();
-        }
     }
 
     public void AddCounter(int amount = 1)
@@ -111,7 +99,6 @@ public class Counter : MonoBehaviour
         if (_currency == Currency.SipsToDrink && _shieldIsUp) return;
         if (GameManager.Instance.HasEffect<DoubleSip>() && _currency == Currency.SipsToDrink) amount *= 2;
         _counter += amount;
-        _counterNumber.text = _counter.ToString();
         if (_isOwner) OnCounterAdd?.Invoke(_currency, amount);
     }
 
@@ -119,7 +106,6 @@ public class Counter : MonoBehaviour
     {
         if (_counter == 0) return;
         _counter -= amount;
-        _counterNumber.text = _counter.ToString();
         OnCounterRemove?.Invoke(_currency, amount);
     }
 }

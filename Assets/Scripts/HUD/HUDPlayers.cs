@@ -20,7 +20,7 @@ public class HUDPlayers : MonoBehaviour
         PlayerNetwork.OnPlayerDisconnect -= RemovePlayer;
     }
 
-    protected void AddPlayer(ulong id, string name, int sips, int shots)
+    protected void AddPlayer(ulong id, string name, int sips, int sipsToDrink, int shots, int golds)
     {
         GameObject go = Instantiate(_joueurPrefab, _content);
         _players[id] = go;

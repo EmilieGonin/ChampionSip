@@ -1,4 +1,6 @@
+using AYellowpaper.SerializedCollections.Editor.Data;
 using System;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +9,7 @@ public class PlayerNetwork : NetworkBehaviour
     public static event Action<string> OnChallengeSelect;
     public static event Action<bool> OnChallengeCompleted; // true = victory
     public static event Action<ulong, Currency, int> OnCurrencyUpdate;
-    public static event Action<ulong, string, int, int> OnNewPlayer;
+    public static event Action<ulong, string, int, int, int, int> OnNewPlayer;
     public static event Action<ulong> OnPlayerDisconnect;
 
     public override void OnNetworkSpawn()
@@ -28,11 +30,7 @@ public class PlayerNetwork : NetworkBehaviour
         GameManager.Instance.SetPlayerId(OwnerClientId);
 
         if (IsHost) return;
-        SendPlayerDatasServerRpc(
-            GameManager.Instance.PlayerName,
-            GameManager.Instance.Currencies[Currency.Sips],
-            GameManager.Instance.Currencies[Currency.Shots],
-            OwnerClientId);
+        SendDatas();
     }
 
     public override void OnNetworkDespawn()
@@ -46,6 +44,30 @@ public class PlayerNetwork : NetworkBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback -= Singleton_OnClientDisconnectCallback;
 
         ModEconomy.OnCurrencyUpdate -= ModEconomy_OnCurrencyUpdate;
+    }
+
+    private void SendDatas()
+    {
+        if (IsHost)
+        {
+            SendPlayerDatasClientRpc(
+            GameManager.Instance.PlayerName,
+            GameManager.Instance.Currencies[Currency.Sips],
+            GameManager.Instance.Currencies[Currency.SipsToDrink],
+            GameManager.Instance.Currencies[Currency.Shots],
+            GameManager.Instance.Currencies[Currency.Golds],
+            OwnerClientId);
+        }
+        else
+        {
+            SendPlayerDatasServerRpc(
+            GameManager.Instance.PlayerName,
+            GameManager.Instance.Currencies[Currency.Sips],
+            GameManager.Instance.Currencies[Currency.SipsToDrink],
+            GameManager.Instance.Currencies[Currency.Shots],
+            GameManager.Instance.Currencies[Currency.Golds],
+            OwnerClientId);
+        }
     }
 
     private void Singleton_OnClientDisconnectCallback(ulong id)
@@ -66,18 +88,16 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (IsHost && OwnerClientId != id)
         {
-            SendPlayerDatasClientRpc(
-            GameManager.Instance.PlayerName,
-            GameManager.Instance.Currencies[Currency.Sips],
-            GameManager.Instance.Currencies[Currency.Shots],
-            OwnerClientId);
+            SendDatas();
 
             foreach (var player in GameManager.Instance.Players)
             {
                 SendPlayerDatasClientRpc(
                     player.Value.Name,
                     player.Value.Currencies[Currency.Sips],
+                    player.Value.Currencies[Currency.SipsToDrink],
                     player.Value.Currencies[Currency.Shots],
+                    player.Value.Currencies[Currency.Golds],
                     player.Key);
             }
         }
@@ -145,10 +165,10 @@ public class PlayerNetwork : NetworkBehaviour
         UpdateCurrencyClientRpc(id, currency, amount);
     }
 
-    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int shots, ulong id)
+    [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int sipsToDrink, int shots, int golds, ulong id)
     {
         Debug.Log($"[{OwnerClientId}] Server RPC - Receive datas from {name} ({id})");
-        OnNewPlayer?.Invoke(id, name, sips, shots);
+        OnNewPlayer?.Invoke(id, name, sips, sipsToDrink, shots, golds);
     }
 
     // ClientRpc : Receive by everyone - Used by host
@@ -181,12 +201,11 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void SendPlayerDatasClientRpc(string name, int sips, int shots, ulong id)
+    private void SendPlayerDatasClientRpc(string name, int sips, int sipsToDrink, int shots, int golds, ulong id)
     {
         if (IsHost) return;
         Debug.Log($"[{OwnerClientId}] Client RPC - Receive datas of {name} ({id}) ");
-        //if (IsHost && OwnerClientId == id) return;
-        OnNewPlayer?.Invoke(id, name, sips, shots);
+        OnNewPlayer?.Invoke(id, name, sips, sipsToDrink, shots, golds);
     }
 
     private void OnApplicationPause(bool pauseStatus)

@@ -27,6 +27,7 @@ public class HUDPlayer : MonoBehaviour
     {
         _id = id;
         _name.text = GameManager.Instance.Players[id].Name;
+        _golds.text = GameManager.Instance.Players[id].Currencies[Currency.Golds].ToString();
 
         foreach (Counter counter in _counters) counter.SetPlayerId(id);
     }

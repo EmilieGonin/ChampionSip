@@ -15,7 +15,7 @@ public struct PlayerData
 
 public class ModLobby : Module
 {
-    public static event Action<ulong, string, int, int> OnNewPlayer;
+    public static event Action<ulong, string, int, int, int, int> OnNewPlayer;
 
     public string LobbyCode { get; private set; }
     public bool IsHost { get; private set; }
@@ -105,7 +105,7 @@ public class ModLobby : Module
         _manager.LoadingScreenSceneHandler.Unload();
     }
 
-    private void PlayerNetwork_OnNewPlayer(ulong id, string name, int sips, int shots)
+    private void PlayerNetwork_OnNewPlayer(ulong id, string name, int sips, int sipsToDrink, int shots, int golds)
     {
         if (Players.ContainsKey(id) || PlayerId == id) return;
         Debug.Log($"Added player {name} ({id})");
@@ -116,11 +116,13 @@ public class ModLobby : Module
             Currencies = new()
             {
                 { Currency.Sips, sips },
-                { Currency.Shots, shots }
+                { Currency.SipsToDrink, sipsToDrink },
+                { Currency.Shots, shots },
+                { Currency.Golds, golds }
             }
         };
 
-        OnNewPlayer?.Invoke(id, name, sips, shots);
+        OnNewPlayer?.Invoke(id, name, sips, sipsToDrink, shots, golds);
     }
 
     private void PlayerNetwork_OnPlayerDisconnect(ulong id)

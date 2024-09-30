@@ -17,7 +17,9 @@ public class HUDSelectClient : HUDPlayers
                 player.Key,
                 player.Value.Name,
                 player.Value.Currencies[Currency.Sips],
-                player.Value.Currencies[Currency.Shots]);
+                player.Value.Currencies[Currency.SipsToDrink],
+                player.Value.Currencies[Currency.Shots],
+                player.Value.Currencies[Currency.Golds]);
         }
     }
 
