@@ -61,7 +61,10 @@ public class HUDChallengeButton : MonoBehaviour
 
     public void OnClick()
     {
-        if (_isAvailable) CreateNewChallenge();
+        if (_isAvailable && GameManager.Instance.CanChallenge())
+        {
+            CreateNewChallenge();
+        }
     }
 
     private void CreateNewChallenge()

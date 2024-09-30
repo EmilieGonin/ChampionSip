@@ -106,6 +106,6 @@ public class Counter : MonoBehaviour
     {
         if (_counter == 0) return;
         _counter -= amount;
-        OnCounterRemove?.Invoke(_currency, amount);
+        if (_isOwner) OnCounterRemove?.Invoke(_currency, amount);
     }
 }

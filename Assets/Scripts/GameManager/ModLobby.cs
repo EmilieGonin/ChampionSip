@@ -26,12 +26,14 @@ public class ModLobby : Module
     {
         PlayerNetwork.OnNewPlayer += PlayerNetwork_OnNewPlayer;
         PlayerNetwork.OnPlayerDisconnect += PlayerNetwork_OnPlayerDisconnect;
+        PlayerNetwork.OnCurrencyUpdate += PlayerNetwork_OnCurrencyUpdate;
     }
 
     private void OnDestroy()
     {
         PlayerNetwork.OnNewPlayer -= PlayerNetwork_OnNewPlayer;
         PlayerNetwork.OnPlayerDisconnect -= PlayerNetwork_OnPlayerDisconnect;
+        PlayerNetwork.OnCurrencyUpdate -= PlayerNetwork_OnCurrencyUpdate;
     }
 
     public async Task<bool> CreateLobby()
@@ -133,5 +135,10 @@ public class ModLobby : Module
     public void SetPlayerId(ulong id)
     {
         PlayerId = id;
+    }
+
+    private void PlayerNetwork_OnCurrencyUpdate(ulong id, Currency currency, int amount)
+    {
+        Players[id].Currencies[currency] = amount;
     }
 }

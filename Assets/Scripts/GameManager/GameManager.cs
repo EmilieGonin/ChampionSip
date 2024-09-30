@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public SerializedDictionary<ChallengeCategory, string> ChallengeCategoriesTitles => Mod<ModChallenges>().ChallengeCategoriesTitles;
     public string SelectNewChallenge() => Mod<ModChallenges>().SelectNewChallenge();
     public void UpdateActiveChallenges(ChallengeCategory category, bool isActive) => Mod<ModChallenges>().UpdateActiveChallenges(category, isActive);
+    public bool CanChallenge() => Mod<ModChallenges>().CanChallenge();
 
     // Account
     public string PlayerName => Mod<ModAccount>().PlayerName;

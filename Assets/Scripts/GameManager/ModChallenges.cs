@@ -41,4 +41,25 @@ public class ModChallenges : Module
     {
         ChallengeCategories[category] = isActive;
     }
+
+    public bool CanChallenge()
+    {
+        if (_manager.Currencies[Currency.SipsToDrink] > 5)
+        {
+            _manager.ShowError("Vous devez avoir moins de 5 gorgées à boire pour lancer un défi.");
+            return false;
+        }
+
+        foreach (var player in _manager.Players)
+        {
+            if (player.Value.Currencies[Currency.SipsToDrink] > 5)
+            {
+                _manager.ShowError($"Impossible de lancer le défi : {player.Value.Name} a plus de 5 gorgées à boire.");
+                //_manager.ShowError("Impossible de lancer le défi : un joueur a plus de 5 gorgées à boire.");
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
