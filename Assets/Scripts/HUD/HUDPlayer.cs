@@ -14,15 +14,8 @@ public class HUDPlayer : MonoBehaviour
 
     private ulong _id;
 
-    private void Awake()
-    {
-        PlayerNetwork.OnCurrencyUpdate += PlayerNetwork_OnCurrencyUpdate;
-    }
-
-    private void OnDestroy()
-    {
-        PlayerNetwork.OnCurrencyUpdate -= PlayerNetwork_OnCurrencyUpdate;
-    }
+    private void Awake() => PlayerNetwork.OnCurrencyUpdate += PlayerNetwork_OnCurrencyUpdate;
+    private void OnDestroy() => PlayerNetwork.OnCurrencyUpdate -= PlayerNetwork_OnCurrencyUpdate;
 
     public void Init(ulong id)
     {

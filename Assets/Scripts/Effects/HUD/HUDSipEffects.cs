@@ -7,7 +7,6 @@ public class HUDSipEffects : Timer
     [SerializeField] private Sprite _shieldIcon;
     [SerializeField] private Sprite _doubleSipIcon;
     [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private bool _isOwner;
 
     private EffectSO _currentEffect;
     private ulong _playerId;
@@ -16,8 +15,6 @@ public class HUDSipEffects : Timer
     {
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnInflict += EffectSO_OnInflict;
-
-        //if (_isOwner) _playerId = GameManager.Instance.PlayerId;
     }
 
     private void OnDestroy()

@@ -16,6 +16,7 @@ public struct PlayerData
 public class ModLobby : Module
 {
     public static event Action<ulong, string, int, int, int, int> OnNewPlayer;
+    public static event Action<ulong> OnSetPlayerId;
 
     public string LobbyCode { get; private set; }
     public bool IsHost { get; private set; }
@@ -135,6 +136,7 @@ public class ModLobby : Module
     public void SetPlayerId(ulong id)
     {
         PlayerId = id;
+        OnSetPlayerId?.Invoke(id);
     }
 
     private void PlayerNetwork_OnCurrencyUpdate(ulong id, Currency currency, int amount)

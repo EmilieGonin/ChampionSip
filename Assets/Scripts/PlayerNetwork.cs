@@ -148,15 +148,7 @@ public class PlayerNetwork : NetworkBehaviour
         CompleteChallengeClientRpc(clientId);
     }
 
-    [ServerRpc] private void InflictEffectServerRpc(string effect, ulong id)
-    {
-        //if (GameManager.Instance.PlayerId == id)
-        //{
-        //    GameManager.Instance.GetEffectByName(effect).Inflict(id);
-        //}
-        
-        InflictEffectClientRpc(effect, id);
-    }
+    [ServerRpc] private void InflictEffectServerRpc(string effect, ulong id) => InflictEffectClientRpc(effect, id);
 
     [ServerRpc] private void UpdateCurrencyServerRpc(ulong id, Currency currency, int amount)
     {
@@ -186,12 +178,7 @@ public class PlayerNetwork : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void InflictEffectClientRpc(string effect, ulong id)
-    {
-        //if (IsHost) return;
-        //if (IsHost || GameManager.Instance.PlayerId != id) return;
-        GameManager.Instance.GetEffectByName(effect).Inflict(id);
-    }
+    private void InflictEffectClientRpc(string effect, ulong id) => GameManager.Instance.GetEffectByName(effect).Inflict(id);
 
     [ClientRpc]
     private void UpdateCurrencyClientRpc(ulong id, Currency currency, int amount)
