@@ -36,18 +36,21 @@ public class ModEffects : Module
 
     private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
+        if (id != GameManager.Instance.PlayerId) return;
         if (!effect.IsInflicted) CurrentEffects.Add(effect);
         _manager.RemoveCurrency(Currency.Golds, effect.Price);
         _manager.ShowNotification($"Vous avez activé l'effet <b>{effect.Name}</b> !");
     }
 
-    private void EffectSO_OnDeactivate(EffectSO effect)
+    private void EffectSO_OnDeactivate(EffectSO effect, ulong id)
     {
+        if (id != GameManager.Instance.PlayerId) return;
         if (CurrentEffects.Contains(effect)) CurrentEffects.Remove(effect);
     }
 
-    private void EffectSO_OnInflict(EffectSO effect)
+    private void EffectSO_OnInflict(EffectSO effect, ulong id)
     {
+        if (id != GameManager.Instance.PlayerId) return;
         if (effect.IsInflicted) CurrentEffects.Add(effect);
         _manager.ShowNotification($"On vous a infligé l'effet <b>{effect.Name}</b> !");
     }

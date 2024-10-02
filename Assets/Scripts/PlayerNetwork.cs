@@ -1,6 +1,4 @@
-using AYellowpaper.SerializedCollections.Editor.Data;
 using System;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -152,11 +150,12 @@ public class PlayerNetwork : NetworkBehaviour
 
     [ServerRpc] private void InflictEffectServerRpc(string effect, ulong id)
     {
-        if (GameManager.Instance.PlayerId == id)
-        {
-            GameManager.Instance.GetEffectByName(effect).Inflict();
-        }
-        else InflictEffectClientRpc(effect, id);
+        //if (GameManager.Instance.PlayerId == id)
+        //{
+        //    GameManager.Instance.GetEffectByName(effect).Inflict(id);
+        //}
+        
+        InflictEffectClientRpc(effect, id);
     }
 
     [ServerRpc] private void UpdateCurrencyServerRpc(ulong id, Currency currency, int amount)
@@ -189,8 +188,9 @@ public class PlayerNetwork : NetworkBehaviour
     [ClientRpc]
     private void InflictEffectClientRpc(string effect, ulong id)
     {
-        if (IsHost || GameManager.Instance.PlayerId != id) return;
-        GameManager.Instance.GetEffectByName(effect).Inflict();
+        //if (IsHost) return;
+        //if (IsHost || GameManager.Instance.PlayerId != id) return;
+        GameManager.Instance.GetEffectByName(effect).Inflict(id);
     }
 
     [ClientRpc]

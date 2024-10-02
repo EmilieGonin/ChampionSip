@@ -57,20 +57,23 @@ public class Counter : MonoBehaviour
 
     private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
-        if (!_isOwner) return;
+        //if (!_isOwner) return;
+        if (id != _playerId) return;
         if (effect is SipTransfer && _currency == Currency.SipsToDrink) RemoveCounter(5);
         else if (effect is ChallengeShield) _challengeShieldIsUp = true;
         else if (effect is Shield) _shieldIsUp = true;
     }
 
-    private void EffectSO_OnDeactivate(EffectSO effect)
+    private void EffectSO_OnDeactivate(EffectSO effect, ulong id)
     {
+        if (id != _playerId) return;
         if (effect is Shield) _shieldIsUp = false;
     }
 
-    private void EffectSO_OnInflict(EffectSO effect)
+    private void EffectSO_OnInflict(EffectSO effect, ulong id)
     {
-        if (!_isOwner) return;
+        //if (!_isOwner) return;
+        if (id != _playerId) return;
         if (effect is SipTransfer && _currency == Currency.SipsToDrink) AddCounter(5);
         else if (effect is Tsunami && _currency == Currency.SipsToDrink) AddCounter(10);
     }

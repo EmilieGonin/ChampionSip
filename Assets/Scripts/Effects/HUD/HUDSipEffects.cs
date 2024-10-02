@@ -7,6 +7,7 @@ public class HUDSipEffects : Timer
     [SerializeField] private Sprite _shieldIcon;
     [SerializeField] private Sprite _doubleSipIcon;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private bool _isOwner;
 
     private EffectSO _currentEffect;
     private ulong _playerId;
@@ -15,6 +16,8 @@ public class HUDSipEffects : Timer
     {
         EffectSO.OnActivate += EffectSO_OnActivate;
         EffectSO.OnInflict += EffectSO_OnInflict;
+
+        //if (_isOwner) _playerId = GameManager.Instance.PlayerId;
     }
 
     private void OnDestroy()
@@ -23,8 +26,12 @@ public class HUDSipEffects : Timer
         EffectSO.OnInflict -= EffectSO_OnInflict;
     }
 
+    public void SetPlayerId(ulong id) => _playerId = id;
+
     private void EffectSO_OnActivate(EffectSO effect, ulong id)
     {
+        if (id != _playerId) return;
+
         if (effect is Shield)
         {
             ChangeEffect(effect);
@@ -32,8 +39,10 @@ public class HUDSipEffects : Timer
         }
     }
 
-    private void EffectSO_OnInflict(EffectSO effect)
+    private void EffectSO_OnInflict(EffectSO effect, ulong id)
     {
+        if (id != _playerId) return;
+
         if (effect is DoubleSip)
         {
             ChangeEffect(effect);
@@ -44,7 +53,7 @@ public class HUDSipEffects : Timer
     private void ChangeEffect(EffectSO effect)
     {
         if (_time.TotalSeconds > 0) StopCoroutine(_timerCoroutine);
-        _currentEffect?.Deactivate();
+        _currentEffect?.Deactivate(_playerId);
         _currentEffect = effect;
         _canvasGroup.alpha = 1;
         StartCoroutine(Launch(effect.Timer));
@@ -53,6 +62,6 @@ public class HUDSipEffects : Timer
     public override void OnTimerEnd()
     {
         _canvasGroup.alpha = 0;
-        _currentEffect?.Deactivate();
+        _currentEffect?.Deactivate(_playerId);
     }
 }

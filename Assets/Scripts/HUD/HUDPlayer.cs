@@ -10,6 +10,7 @@ public class HUDPlayer : MonoBehaviour
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _golds;
     [SerializeField] private List<Counter> _counters;
+    [SerializeField] private HUDSipEffects _sipEffects;
 
     private ulong _id;
 
@@ -29,6 +30,7 @@ public class HUDPlayer : MonoBehaviour
         _name.text = GameManager.Instance.Players[id].Name;
         _golds.text = GameManager.Instance.Players[id].Currencies[Currency.Golds].ToString();
 
+        _sipEffects.SetPlayerId(id);
         foreach (Counter counter in _counters) counter.SetPlayerId(id);
     }
 

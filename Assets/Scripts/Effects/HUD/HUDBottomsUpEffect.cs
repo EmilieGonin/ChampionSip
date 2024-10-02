@@ -9,8 +9,9 @@ public class HUDBottomsUpEffect : MonoBehaviour
     private void Awake() => EffectSO.OnInflict += EffectSO_OnInflict;
     private void OnDestroy() => EffectSO.OnInflict -= EffectSO_OnInflict;
 
-    private void EffectSO_OnInflict(EffectSO effect)
+    private void EffectSO_OnInflict(EffectSO effect, ulong id)
     {
+        if (id != GameManager.Instance.PlayerId) return;
         if (effect is not BottomsUp) return;
         SceneManager.LoadScene(_bottomsUpPopup, LoadSceneMode.Additive);
     }
