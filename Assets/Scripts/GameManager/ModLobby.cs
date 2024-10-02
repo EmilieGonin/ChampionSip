@@ -82,6 +82,7 @@ public class ModLobby : Module
         {
             Debug.LogException(ex);
             _manager.ShowError("Impossible de se connecter au lobby.");
+            _manager.LoadingScreenSceneHandler.Unload();
             return false;
         }
     }
