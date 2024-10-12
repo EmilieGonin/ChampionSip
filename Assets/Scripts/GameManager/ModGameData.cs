@@ -23,13 +23,6 @@ public class ModGameData : Module
         ModEconomy.OnCurrencyUpdate -= UpdateCurrency;
     }
 
-    //private void Start()
-    //{
-    //    _savePath = Application.persistentDataPath + "/GameData.json";
-
-    //    LoadGame();
-    //}
-
     private void SaveGame()
     {
         string json = JsonUtility.ToJson(Data);

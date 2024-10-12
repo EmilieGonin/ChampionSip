@@ -9,6 +9,7 @@ public class PlayerNetwork : NetworkBehaviour
     public static event Action<ulong, Currency, int> OnCurrencyUpdate;
     public static event Action<ulong, string, int, int, int, int> OnNewPlayer;
     public static event Action<ulong> OnPlayerDisconnect;
+    public static event Action<string> OnChangeName;
 
     public override void OnNetworkSpawn()
     {
@@ -159,7 +160,11 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc] private void SendPlayerDatasServerRpc(string name, int sips, int sipsToDrink, int shots, int golds, ulong id)
     {
         Debug.Log($"[{OwnerClientId}] Server RPC - Receive datas from {name} ({id})");
-        OnNewPlayer?.Invoke(id, name, sips, sipsToDrink, shots, golds);
+        string newPlayerName = GameManager.Instance.CheckNewPlayerName(name);
+
+        if (newPlayerName != name) ChangeNameClientRpc(newPlayerName, id);
+
+        OnNewPlayer?.Invoke(id, newPlayerName, sips, sipsToDrink, shots, golds);
     }
 
     // ClientRpc : Receive by everyone - Used by host
@@ -193,6 +198,13 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsHost) return;
         Debug.Log($"[{OwnerClientId}] Client RPC - Receive datas of {name} ({id}) ");
         OnNewPlayer?.Invoke(id, name, sips, sipsToDrink, shots, golds);
+    }
+
+    [ClientRpc]
+    private void ChangeNameClientRpc(string name, ulong id)
+    {
+        if (IsHost || GameManager.Instance.PlayerId != id) return;
+        OnChangeName?.Invoke(name);
     }
 
     private void OnApplicationPause(bool pauseStatus)

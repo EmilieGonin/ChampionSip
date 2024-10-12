@@ -12,6 +12,8 @@ public class ModAccount : Module
 
     async private void Awake()
     {
+        PlayerNetwork.OnChangeName += PlayerNetwork_OnChangeName;
+
         _namesPath = Resources.Load<TextAsset>("PlayerNames");
 
         try
@@ -19,12 +21,17 @@ public class ModAccount : Module
             await UnityServices.InitializeAsync();
             SetupEvents();
             await SignInAnonymouslyAsync();
-            ChooseRandomName();
+            PlayerName = ChooseRandomName();
         }
         catch (Exception e)
         {
             Debug.LogException(e);
         }
+    }
+
+    private void OnDestroy()
+    {
+        PlayerNetwork.OnChangeName -= PlayerNetwork_OnChangeName;
     }
 
     private void SetupEvents()
@@ -64,7 +71,7 @@ public class ModAccount : Module
         }
     }
 
-    private void ChooseRandomName()
+    public string ChooseRandomName()
     {
         List<string> names = new();
 
@@ -72,8 +79,10 @@ public class ModAccount : Module
         names.AddRange(lines);
 
         int randomIndex = UnityEngine.Random.Range(0, names.Count);
-        PlayerName = names[randomIndex];
 
-        Debug.Log("Player name is " + PlayerName);
+        Debug.Log($"Nom choisi : {names[randomIndex]}.");
+        return names[randomIndex];
     }
+
+    private void PlayerNetwork_OnChangeName(string name) => PlayerName = name;
 }

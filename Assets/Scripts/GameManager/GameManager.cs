@@ -36,12 +36,14 @@ public class GameManager : MonoBehaviour
 
     // Account
     public string PlayerName => Mod<ModAccount>().PlayerName;
+    public string ChooseRandomName() => Mod<ModAccount>().ChooseRandomName();
 
     // Lobby
     public bool IsHost => Mod<ModLobby>().IsHost;
     public Dictionary<ulong, PlayerData> Players => Mod<ModLobby>().Players;
     public ulong PlayerId => Mod<ModLobby>().PlayerId;
     public void SetPlayerId(ulong id) => Mod<ModLobby>().SetPlayerId(id);
+    public string CheckNewPlayerName(string name) => Mod<ModLobby>().CheckNewPlayerName(name);
 
     // Economy
     public Dictionary<Currency, int> Currencies => Mod<ModEconomy>().Currencies;

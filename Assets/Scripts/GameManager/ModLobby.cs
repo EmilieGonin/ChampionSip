@@ -144,4 +144,28 @@ public class ModLobby : Module
     {
         Players[id].Currencies[currency] = amount;
     }
+
+    public string CheckNewPlayerName(string name)
+    {
+        if (!NameExists(name)) return name;
+
+        string newName;
+
+        do newName = _manager.ChooseRandomName();
+        while (NameExists(newName));
+
+        return newName;
+    }
+
+    private bool NameExists(string name)
+    {
+        if (_manager.PlayerName == name) return true;
+
+        foreach (var player in Players)
+        {
+            if (player.Value.Name == name) return true;
+        }
+
+        return false;
+    }
 }
