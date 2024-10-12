@@ -9,6 +9,7 @@ public class SceneHandler : MonoBehaviour
     [BoxGroup("Load Settings"), SerializeField, Scene] private string _sceneToLoad;
     [BoxGroup("Load Settings"), SerializeField] private bool _loadAsAdditive;
     [BoxGroup("Load Settings"), SerializeField] private bool _instantLoad;
+    [BoxGroup("Load Settings"), SerializeField] private bool _checkIfUnique = false;
 
     [HorizontalLine(color: EColor.Red)]
     [BoxGroup("Unload Settings"), SerializeField] private bool _unloadCurrentScene = true;
@@ -29,6 +30,7 @@ public class SceneHandler : MonoBehaviour
 
     public void Load()
     {
+        if (_checkIfUnique && IsSceneLoaded()) return;
         SceneManager.LoadScene(_sceneToLoad, _loadSceneMode);
         if (_popupTimeout) StartCoroutine(Timeout());
     }
@@ -44,5 +46,11 @@ public class SceneHandler : MonoBehaviour
         yield return new WaitForSeconds(_timeoutDuration);
         Unload();
         yield return null;
+    }
+
+    public bool IsSceneLoaded()
+    {
+        Scene scene = SceneManager.GetSceneByName(_sceneToLoad);
+        return scene.isLoaded;
     }
 }
