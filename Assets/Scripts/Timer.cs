@@ -24,9 +24,8 @@ public class Timer : MonoBehaviour
 
         while (_time.TotalSeconds > 0)
         {
-            //Debug.Log(time.ToString());
             _time = _time.Subtract(tick);
-            _timer.text = _time.ToString();
+            _timer.text = string.Format("{0:D2}:{1:D2}", _time.Minutes, _time.Seconds);
             yield return new WaitForSeconds(1);
         }
 
