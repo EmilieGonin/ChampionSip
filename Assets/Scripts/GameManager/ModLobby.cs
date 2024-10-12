@@ -21,7 +21,7 @@ public class ModLobby : Module
     public string LobbyCode { get; private set; }
     public bool IsHost { get; private set; }
     public Dictionary<ulong, PlayerData> Players { get; private set; } = new();
-    public ulong PlayerId {  get; private set; }
+    public ulong PlayerId {  get; private set; } = ulong.MaxValue;
 
     private void Awake()
     {

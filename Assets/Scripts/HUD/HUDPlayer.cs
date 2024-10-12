@@ -11,6 +11,7 @@ public class HUDPlayer : MonoBehaviour
     [SerializeField] private TMP_Text _golds;
     [SerializeField] private List<Counter> _counters;
     [SerializeField] private HUDSipEffects _sipEffects;
+    [SerializeField] private GameObject _hostIcon;
 
     private ulong _id;
 
@@ -25,6 +26,8 @@ public class HUDPlayer : MonoBehaviour
 
         _sipEffects.SetPlayerId(id);
         foreach (Counter counter in _counters) counter.SetPlayerId(id);
+
+        _hostIcon.SetActive(_id == 0);
     }
 
     private void PlayerNetwork_OnCurrencyUpdate(ulong id,Currency currency, int amount)
