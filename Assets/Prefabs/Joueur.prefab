@@ -1283,8 +1283,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timer: {fileID: 540604148967012074}
   _icon: {fileID: 5750752569129156007}
-  _shieldIcon: {fileID: 240973750, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
-  _doubleSipIcon: {fileID: -358728841, guid: a5e645d0b2507ac42807ef8e886f7d45, type: 3}
   _canvasGroup: {fileID: 566043863254180517}
 --- !u!225 &566043863254180517
 CanvasGroup:
@@ -1363,8 +1361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 100
-    m_Right: 100
+    m_Left: 20
+    m_Right: 20
     m_Top: 40
     m_Bottom: 20
   m_ChildAlignment: 4
@@ -1639,7 +1637,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 715, y: 0}
+  m_SizeDelta: {x: 900, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3009469391293127996
 MonoBehaviour:

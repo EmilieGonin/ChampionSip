@@ -776,6 +776,7 @@ MonoBehaviour:
   _sceneToLoad: Menu_Main
   _loadAsAdditive: 0
   _instantLoad: 0
+  _checkIfUnique: 0
   _unloadCurrentScene: 1
   _sceneToUnload: 
   _popupTimeout: 0
@@ -935,7 +936,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 1604159000, guid: 6d1a2570067e3ae4cb5c72a2bca3b8d5, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
